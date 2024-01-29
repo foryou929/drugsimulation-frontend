@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.loading-indicator:before {
+  content: '';
+  background: #00000080;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.loading-indicator:after {
+  content: ' ';
+  position: fixed;
+  top: 40%;
+  left: 45%;
+  z-index: 2040;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border: 16px solid #f3f3f3;
+  /* Light grey */
+  border-top: 16px solid #0474bf;
+  /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #8884;
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #6664;
+}
+
+.ant-btn-primary {
+  background-color: #7480FF;
+  box-shadow: none;
+}
+
+.ant-switch {
+  background-color: #FF8074;
+}
+
+.bg-pic {
+  background-image: url("../public/assets/img/bg.jpg");
+  background-size: 100% 100%;
+}
+
+.bg-img-login {
+  background-image: url("../public/assets/img/login.jpg");
+  background-size: 150% 100%;
+  border-radius: 16px;
+}
+
+.bg-img-register {
+  background-image: url("../public/assets/img/register.jpg");
+  background-size: 150% 100%;
+  border-radius: 16px;
+}
