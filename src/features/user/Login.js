@@ -79,7 +79,7 @@ function Login() {
 
     const loginWithGoogle = (e) => {
         e.preventDefault();
-        window.location.href = 'https://localhost:3776/api/loginWithGoogle';
+        window.location.href = process.env.REACT_APP_BASE_URL + 'loginWithGoogle';
     }
 
     const updateFormValue = ({ updateType, value }) => {

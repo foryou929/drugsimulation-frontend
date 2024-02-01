@@ -62,7 +62,7 @@ const StripePaymentPage = () => {
                                 <Elements stripe={stripePromise} options={
                                     {
                                         clientSecret: client_secret,
-                                        locale: lang,
+                                        locale: lang ? lang : 'ja',
                                         appearance: {
                                             theme: theme == 'dark' ? 'night' : 'stripe'
                                         }
