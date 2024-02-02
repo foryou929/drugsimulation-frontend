@@ -39,7 +39,7 @@ const StripePaymentPage = () => {
     const lang = localStorage.getItem('lang');
     const theme = localStorage.getItem('theme');
 
-    if (user?.paid) {
+    if (user?.paid || user?.isAdmin) {
         return (
             <div className='flex justify-center'>
                 <div className='w-[640px]'>
@@ -62,7 +62,7 @@ const StripePaymentPage = () => {
                                 <Elements stripe={stripePromise} options={
                                     {
                                         clientSecret: client_secret,
-                                        locale: lang,
+                                        locale: lang ? lang : 'ja',
                                         appearance: {
                                             theme: theme == 'dark' ? 'night' : 'stripe'
                                         }

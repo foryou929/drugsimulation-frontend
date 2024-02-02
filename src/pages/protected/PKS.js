@@ -15,7 +15,7 @@ function PKSPage() {
         dispatch(setPageTitle({ title: "Pharmacokinetic" }))
     }, [])
 
-    if (user?.paid) {
+    if (user?.paid || user?.isAdmin) {
         return <PKS />
     } else {
         return (

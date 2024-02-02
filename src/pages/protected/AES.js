@@ -15,7 +15,7 @@ function AESPage() {
         dispatch(setPageTitle({ title: "Anesthetic Effect" }))
     }, [])
 
-    if (user?.paid) {
+    if (user?.paid || user?.isAdmin) {
         return <AES />
     } else {
         return (
