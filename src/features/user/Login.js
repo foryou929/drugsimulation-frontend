@@ -79,11 +79,7 @@ function Login() {
 
     const loginWithGoogle = (e) => {
         e.preventDefault();
-<<<<<<< HEAD
         window.location.href = `{process.env.REACT_APP_URL}/api/loginWithGoogle`;
-=======
-        window.location.href = process.env.REACT_APP_BASE_URL + 'loginWithGoogle';
->>>>>>> 4e991513f686f3ab9cfa765873ed6500c016b125
     }
 
     const updateFormValue = ({ updateType, value }) => {
