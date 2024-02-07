@@ -1,6 +1,7 @@
 import TitleCard from "../../components/Cards/TitleCard"
 import { Input, Radio, Select, Table, InputNumber } from 'antd'
 import { Line } from 'react-chartjs-2';
+
 import _ from 'lodash'
 import {
     Chart as ChartJS,
@@ -28,15 +29,9 @@ ChartJS.register(
     Legend
 );
 
-export const options = {
-    responsive: true,
-};
-
-const format = 'HH:mm'
-
 // Constants
-const unit1 = ['(%)', '(%)', '(μg/mL)', '(mg/kg/mL)']
-const unit2 = ['(%)', '(%)', '(μg/mL)', '(μg/mL)']
+const unit1 = ['%', '%', 'μg/mL', 'mg/kg/mL']
+const unit2 = ['%', '%', 'μg/mL', 'μg/mL']
 const ASA_PS_Options = [
     { value: 1, label: 'I' },
     { value: 2, label: 'II' },
@@ -44,6 +39,7 @@ const ASA_PS_Options = [
     { value: 4, label: 'IV' },
     { value: 5, label: 'V' },
 ]
+
 const label1 = ['DES', 'SEV', 'Prop', 'Dose(RZ)']
 const label2 = ['DES', 'SEV', 'Prop', 'RZ']
 const Hypnotics_Options = [
@@ -712,7 +708,24 @@ const Pharmacokinetic = () => {
                     </Table>
                 </TitleCard>
                 <TitleCard className="w-full" title={"Anesthetic Effect (Chart)"}>
-                    <Line data={chartData} options={options} />
+                    <div className="flex">
+                        <div className="text-center" style={{writingMode: "vertical-lr"}}>
+                            <div className="rotate-180">
+                                {label2[hypnotics] + "(" + unit2[hypnotics] + ")"}
+                            </div>
+                        </div>
+                        <Line data={chartData} options={{
+                            responsive: true,
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
+                                    }
+                                },
+                            },
+                        }} />
+                    </div>
+                    <div className="text-center">Remifentanil (ng/mL)</div>
                 </TitleCard>
             </div>
         </>
