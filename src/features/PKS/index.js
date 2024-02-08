@@ -1,5 +1,5 @@
 import TitleCard from "../../components/Cards/TitleCard"
-import { Input, Radio, Select, Table, Slider, InputNumber, TimePicker } from 'antd'
+import { Radio, Select, Table, Slider, InputNumber, TimePicker } from 'antd'
 import { Line } from 'react-chartjs-2';
 import dayjs from 'dayjs'
 import {
@@ -14,6 +14,8 @@ import {
     Legend,
 } from 'chart.js';
 import { useEffect, useState } from "react";
+
+import OperationPane from "./OperationPane"
 
 const { Column, ColumnGroup } = Table;
 
@@ -66,9 +68,11 @@ const Pharmacokinetic = () => {
 
     const [hypnotics, setHypnotics] = useState(0)
     const [opioid, setOpioid] = useState(0)
-    const [time, setTime] = useState(12)
+    const [time, setTime] = useState(2)
     const [startTime, setStartTime] = useState(dayjs('9.00', format))
-
+    // Operations
+    const [operations1, setOperations1] = useState([{ time: 0, value: 1 }]);
+    const [operations2, setOperations2] = useState([{ time: 0, value: 0.2 }]);
     // Cha Page
     const [LBM, setLBM] = useState(0) //C7
     const [ABW, setABW] = useState(0) //C9
@@ -274,9 +278,14 @@ const Pharmacokinetic = () => {
         let X2 = 0
         let X3 = 0
         let X4 = 0
-        let X0 = BW / 60
+        let Dose = 0
 
         for (let i = 0; i < time * 60; i++) {
+            operations1.map(operation => {
+                if (operation.time == i)
+                    Dose = operation.value
+            })
+            let X0 = BW * Dose / 60
             let dx1_dt = -(K1.k10 + K1.k12 + K1.k13 + K1.k14) * X1 + K1.k21 * X2 + K1.k31 * X3 + K1.k41 * X4 + X0
             let dx2_dt = K1.k12 * X1 - K1.k21 * X2
             let dx3_dt = K1.k13 * X1 - K1.k31 * X3
@@ -293,6 +302,7 @@ const Pharmacokinetic = () => {
                 dx2_dt,
                 dx3_dt,
                 dx4_dt,
+                Dose,
                 ESC: X4 * 10000 / K1.V
             })
 
@@ -311,7 +321,7 @@ const Pharmacokinetic = () => {
         }
 
         setTData1(newTData)
-    }, [time, startTime, K1])
+    }, [time, startTime, K1, operations1])
 
     useEffect(() => {
         let $H = startTime.$H
@@ -323,9 +333,14 @@ const Pharmacokinetic = () => {
         let X2 = 0
         let X3 = 0
         let X4 = 0
-        let X0 = opioid == 0 ? BW * 0.2 : 0.2
+        let Dose = 0
 
         for (let i = 0; i < time * 60; i++) {
+            operations2.map(operation => {
+                if (operation.time == i)
+                    Dose = operation.value
+            })
+            let X0 = opioid == 0 ? BW * Dose : Dose
             let dx1_dt = -(K2.k10 + K2.k12 + K2.k13 + K2.k14) * X1 + K2.k21 * X2 + K2.k31 * X3 + K2.k41 * X4 + X0
             let dx2_dt = K2.k12 * X1 - K2.k21 * X2
             let dx3_dt = K2.k13 * X1 - K2.k31 * X3
@@ -342,6 +357,7 @@ const Pharmacokinetic = () => {
                 dx2_dt,
                 dx3_dt,
                 dx4_dt,
+                Dose,
                 ESC: X4 * 10000 / K2.V
             })
 
@@ -359,7 +375,7 @@ const Pharmacokinetic = () => {
             }
         }
         setTData2(newTData)
-    }, [time, startTime, K2])
+    }, [time, startTime, K2, operations2])
 
     // PKS page
 
@@ -396,9 +412,9 @@ const Pharmacokinetic = () => {
                     key: i,
                     A: TData1[i].time,
                     B: TData1[i].minutes,
-                    C: 1,
+                    C: TData1[i].Dose,
                     D: TData1[i].ESC.toFixed(2),
-                    E: 0.2,
+                    E: TData2[i].Dose,
                     F: TData2[i].ESC.toFixed(2),
                 })
             }
@@ -409,7 +425,7 @@ const Pharmacokinetic = () => {
     return (
         <>
             <div className="flex flex-wrap">
-                <div className="w-full md:w-1/2 px-2">
+                <div className="w-full md:w-1/2 pr-0 md:pr-2">
                     <TitleCard title={"Patient"}>
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">HT:</p>
@@ -460,31 +476,39 @@ const Pharmacokinetic = () => {
                     </TitleCard>
                 </div>
 
-                <div className="w-full md:w-1/2 px-2">
+                <div className="w-full md:w-1/2 pl-0 md:pl-2">
                     <TitleCard title={"Agent"}>
-                        <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/6 text-[12px]">Hypnotics:</p>
-                            <Select
-                                className="w-5/6"
-                                value={hypnotics}
-                                options={[
-                                    { value: 0, label: 'Remimazolam' },
-                                    { value: 1, label: 'Dexmedetomidine' },
-                                ]}
-                                onChange={setHypnotics}
-                            />
-                        </div>
-                        <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/6 text-[12px]">Opioid:</p>
-                            <Select
-                                className="w-5/6"
-                                value={opioid}
-                                options={[
-                                    { value: 0, label: 'Remifentanil' },
-                                    { value: 1, label: 'Fentanyl' },
-                                ]}
-                                onChange={setOpioid}
-                            />
+                        <div className="w-full flex-wrap flex items-start">
+                            <div className="w-full xl:w-1/2 mt-4 xl:pr-2">
+                                <div className="w-full flex items-center">
+                                    <p className="w-1/4 text-[12px]">Hypnotics:</p>
+                                    <Select
+                                        className="w-3/4"
+                                        value={hypnotics}
+                                        options={[
+                                            { value: 0, label: 'Remimazolam' },
+                                            { value: 1, label: 'Dexmedetomidine' },
+                                        ]}
+                                        onChange={setHypnotics}
+                                    />
+                                </div>
+                                <OperationPane operations={operations1} setOperations={setOperations1} />
+                            </div>
+                            <div className="w-full xl:w-1/2 mt-4 xl:pl-2">
+                                <div className="w-full flex items-center">
+                                    <p className="w-1/4 text-[12px]">Opioid:</p>
+                                    <Select
+                                        className="w-3/4"
+                                        value={opioid}
+                                        options={[
+                                            { value: 0, label: 'Remifentanil' },
+                                            { value: 1, label: 'Fentanyl' },
+                                        ]}
+                                        onChange={setOpioid}
+                                    />
+                                </div>
+                                <OperationPane operations={operations2} setOperations={setOperations2} />
+                            </div>
                         </div>
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">Simulation time:</p>
