@@ -474,36 +474,60 @@ const Pharmacokinetic = () => {
     useEffect(() => {
         setChartData(
             {
-                labels: tableData.map(v => v.Copioid),
+                labels: [...Array.from({ length: 100 },
+                    (_, i) => {
+                        if (ECS_RF < i * 0.2)
+                            return Number(i * 0.2).toFixed(1)
+                        if (ECS_RF > (i + 1) * 0.2)
+                            return Number(i * 0.2).toFixed(1)
+                        return ECS_RF.toFixed(2)
+                    }
+                ), 8.06],
                 datasets: [
                     {
                         label: `TOL90`,
-                        data: tableData.map(v => v.V_TOL90),
+                        data: tableData.map(v => [v.Copioid, v.V_TOL90]),
                         borderColor: 'rgb(128, 128, 128)',
                         backgroundColor: 'rgb(128, 128, 128, 0.5)',
+                        pointBackgroundColor: 'transparent',
+                        pointBorderColor: 'transparent'
                     },
                     {
                         label: `TOL50`,
-                        data: tableData.map(v => v.V_TOL50),
+                        data: tableData.map(v => [v.Copioid, v.V_TOL50]),
                         borderColor: 'rgb(235, 235, 53)',
                         backgroundColor: 'rgb(235, 235, 53, 0.5)',
+                        pointBackgroundColor: 'transparent',
+                        pointBorderColor: 'transparent'
                     },
                     {
                         label: `TOSS90`,
-                        data: tableData.map(v => v.V_TOSS90),
+                        data: tableData.map(v => [v.Copioid, v.V_TOSS90]),
                         borderColor: 'rgb(53, 162, 235)',
                         backgroundColor: 'rgb(53, 162, 235, 0.5)',
+                        pointBackgroundColor: 'transparent',
+                        pointBorderColor: 'transparent'
                     },
                     {
                         label: `TOSS50`,
-                        data: tableData.map(v => v.V_TOSS50),
+                        data: tableData.map(v => [v.Copioid, v.V_TOSS50]),
                         borderColor: 'rgb(255, 99, 132)',
                         backgroundColor: 'rgb(255, 99, 132, 0.5)',
+                        pointBackgroundColor: 'transparent',
+                        pointBorderColor: 'transparent',
+                    },
+                    {
+                        label: 'Anesthetic Effect',
+                        data: [[ECS_RF.toFixed(2), Number(value2).toFixed(2)]],
+                        borderColor: '#F008',
+                        backgroundColor: '#F00',
+                        pointBackgroundColor: '#F008',
+                        pointBorderColor: '#F00',
                     },
                 ],
             }
         )
-    }, [tableData])
+    }, [tableData, ECS_RF, value2])
 
     return (
         <>
@@ -563,11 +587,11 @@ const Pharmacokinetic = () => {
                     <TitleCard title={"Agent"}>
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">Dose(RF):</p>
-                            <Input
+                            <InputNumber
                                 className="w-5/6"
                                 suffix={'μg/kg/min'}
                                 defaultValue={Dose_RF}
-                                onChange={(e) => set_Dose_RF(e.target.value)}
+                                onChange={(v) => set_Dose_RF(v)}
                             />
                         </div>
                         <div className="flex w-full mt-4 items-center">
@@ -581,11 +605,11 @@ const Pharmacokinetic = () => {
                         </div>
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">{label1[hypnotics]}:</p>
-                            <Input
+                            <InputNumber
                                 className="w-5/6"
                                 suffix={unit1[hypnotics]}
                                 defaultValue={value1}
-                                onChange={(e) => setValue1(e.target.value)}
+                                onChange={(v) => setValue1(v)}
                             />
                         </div>
                         <div className="flex w-full mt-4 items-center">
@@ -709,18 +733,13 @@ const Pharmacokinetic = () => {
                 </TitleCard> */}
                 <TitleCard className="w-full" title={"Anesthetic Effect (Chart)"}>
                     <div className="flex">
-                        <div className="text-center" style={{writingMode: "vertical-lr"}}>
+                        <div className="text-center" style={{ writingMode: "vertical-lr" }}>
                             <div className="rotate-180">
                                 {label2[hypnotics] + "(" + unit2[hypnotics] + ")"}
                             </div>
                         </div>
                         <Line data={chartData} options={{
                             responsive: true,
-                            elements: {
-                                point:{
-                                    radius: 0
-                                }
-                            },
                             plugins: {
                                 tooltip: {
                                     callbacks: {
