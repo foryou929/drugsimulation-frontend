@@ -1,11 +1,8 @@
-import { InputNumber } from "antd"
-import dayjs from "dayjs"
-
-const format = 'HH:mm';
+import { InputNumber, Select } from "antd"
 
 const OperationPane = ({ operations, setOperations, startTime, unit, ...rest }) => {
     const onClick = () => {
-        setOperations([...operations, { value: 0.0, time: 0 }])
+        setOperations([...operations, { type: 0, value: 0.0, time: 0 }])
     }
     const onRemove = (index) => {
         setOperations(operations.filter((v, i) => i != index))
@@ -20,31 +17,42 @@ const OperationPane = ({ operations, setOperations, startTime, unit, ...rest }) 
         newOperations[index].value = value;
         setOperations(newOperations);
     }
+    const setType = (index, value) => {
+        const newOperations = [...operations];
+        newOperations[index].type = value;
+        setOperations(newOperations);
+    }
     return (
         <div className="w-full" {...rest}>
             {
                 operations.map((operation, index) => {
                     return <div key={index} className="w-full flex gap-2 mt-4 items-center">
-                        <div className="w-full text-sm">
-                            {
-                                `Time: ${startTime.add(operation.time, 'minutes').format('hh:mm')}`
-                            }
-                        </div>
+                        {
+                            index > 0 && <Select
+                                options={[
+                                    { value: 0, label: 'Continuous' },
+                                    { value: 1, label: 'Bolus' }
+                                ]}
+                                value={operation.type}
+                                onChange={(v) => setType(index, v)}
+                            />
+                        }
                         {
                             index > 0 &&
                             <InputNumber
-                                className="w-full"
+                                className="w-40"
                                 defaultValue={operation.time}
                                 onChange={(time) => setTime(index, time)}
+                                addonBefore={startTime.add(operation.time, 'minutes').format('hh:mm')}
                                 suffix={'min'}
                             />
                         }
                         <InputNumber
-                            prefix={index == 0 && "Initial:"}
-                            suffix={unit}
+                            className="flex-grow"
                             defaultValue={operation.value}
-                            className="w-full"
                             onChange={(value) => setValue(index, value)}
+                            addonBefore={index == 0 && "Initial"}
+                            suffix={unit}
                         />
                         {
                             index > 0 && <button className="flex-none" onClick={() => onRemove(index)}>
