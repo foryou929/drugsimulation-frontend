@@ -436,7 +436,7 @@ const Pharmacokinetic = () => {
     return (
         <>
             <div className="flex flex-wrap">
-                <div className="w-full md:w-1/3 pr-0 md:pr-2">
+                <div className="w-full xl:w-1/3 pr-0 xl:pr-2">
                     <TitleCard title={"Patient"}>
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">HT:</p>
@@ -487,7 +487,7 @@ const Pharmacokinetic = () => {
                     </TitleCard>
                 </div>
 
-                <div className="w-full md:w-2/3 pl-0 md:pl-2">
+                <div className="w-full xl:w-2/3 pl-0 xl:pl-2">
                     <TitleCard title={"Agent"}>
                         <div className="w-full flex-wrap flex items-start">
                             <div className="w-full xl:w-1/2 mt-4 xl:pr-2">

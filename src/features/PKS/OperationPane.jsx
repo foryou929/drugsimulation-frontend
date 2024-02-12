@@ -14,7 +14,7 @@ const OperationPane = ({ operations, setOperations, startTime, unit, ...rest }) 
     }
     const setValue = (index, value) => {
         const newOperations = [...operations];
-        newOperations[index].value = value;
+        newOperations[index].value = value < 0 ? 0 : value;
         setOperations(newOperations);
     }
     const setType = (index, value) => {
@@ -26,7 +26,7 @@ const OperationPane = ({ operations, setOperations, startTime, unit, ...rest }) 
         <div className="w-full" {...rest}>
             {
                 operations.map((operation, index) => {
-                    return <div key={index} className="w-full flex gap-2 mt-4 items-center">
+                    return <div key={index} className="w-full flex flex-wrap gap-2 mt-4 items-center">
                         {
                             index > 0 && <Select
                                 options={[
@@ -53,6 +53,7 @@ const OperationPane = ({ operations, setOperations, startTime, unit, ...rest }) 
                             onChange={(value) => setValue(index, value)}
                             addonBefore={index == 0 && "Initial"}
                             suffix={unit[operation.type]}
+                            value={operation.value}
                         />
                         {
                             index > 0 && <button className="flex-none" onClick={() => onRemove(index)}>
