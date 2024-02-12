@@ -52,7 +52,7 @@ const OperationPane = ({ operations, setOperations, startTime, unit, ...rest }) 
                             defaultValue={operation.value}
                             onChange={(value) => setValue(index, value)}
                             addonBefore={index == 0 && "Initial"}
-                            suffix={unit}
+                            suffix={unit[operation.type]}
                         />
                         {
                             index > 0 && <button className="flex-none" onClick={() => onRemove(index)}>

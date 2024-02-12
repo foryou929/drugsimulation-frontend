@@ -50,7 +50,10 @@ const format = 'HH:mm'
 
 // Constants
 const medicine = [['Remimazolam', 'Dexmedetomidine'], ['Remifentanil', 'Fentanyl']]
-const unit = [['mg/kg/h', 'μg/kg/h'], ['μg/mL', 'ng/mL'], ['mg/kg/h', 'μg/min'], ['ng/mL', 'ng/mL']]
+const unit = [['mg/kg/h', 'μg/kg/h'], ['μg/mL', 'ng/mL'], ['μg/kg/min', 'μg/min'], ['ng/mL', 'ng/mL']]
+const unit1 = [['mg/kg/h', 'mg/kg'], ['μg/kg/h', 'μg/kg']]
+const unit2 = [['μg/kg/min', 'μg/kg'], ['μg/min', 'μg']]
+
 const ASA_PS_Options = [
     { value: 1, label: 'I' },
     { value: 2, label: 'II' },
@@ -296,7 +299,7 @@ const Pharmacokinetic = () => {
             let dx4_dt = K1.k14 * X1 - K1.k41 * X4
 
             newTData.push({
-                time: `${$H}:${$m}`,
+                time: `${$H.toString().padStart(2, '0')}:${$m.toString().padStart(2, '0')}`,
                 minutes: i,
                 X1,
                 X2,
@@ -355,7 +358,7 @@ const Pharmacokinetic = () => {
             let dx4_dt = K2.k14 * X1 - K2.k41 * X4
 
             newTData.push({
-                time: `${$H}:${$m}`,
+                time: `${$H.toString().padStart(2, '0')}:${$m.toString().padStart(2, '0')}`,
                 minutes: i,
                 X1,
                 X2,
@@ -500,7 +503,7 @@ const Pharmacokinetic = () => {
                                         onChange={setHypnotics}
                                     />
                                 </div>
-                                <OperationPane operations={operations1} setOperations={setOperations1} startTime={startTime} unit={unit[0][hypnotics]} />
+                                <OperationPane operations={operations1} setOperations={setOperations1} startTime={startTime} unit={unit1[hypnotics]} />
                             </div>
                             <div className="w-full xl:w-1/2 mt-4 xl:pl-2">
                                 <div className="w-full flex items-center">
@@ -515,7 +518,7 @@ const Pharmacokinetic = () => {
                                         onChange={setOpioid}
                                     />
                                 </div>
-                                <OperationPane operations={operations2} setOperations={setOperations2} startTime={startTime} unit={unit[2][opioid]} />
+                                <OperationPane operations={operations2} setOperations={setOperations2} startTime={startTime} unit={unit2[opioid]} />
                             </div>
                         </div>
                         <div className="flex w-full mt-4 items-center">
@@ -551,6 +554,9 @@ const Pharmacokinetic = () => {
                 </div>
             </div>
             <div className="flex flex-wrap items-start">
+                <TitleCard className="w-full" title={"Dose and Effect site concentration (Chart)"}>
+                    <Line data={chartData} options={options} />
+                </TitleCard>
                 <TitleCard className="w-full" title={"Dose and Effect site concentration (Table)"}>
                     <Table dataSource={tableData} bordered scroll={{ x: 'auto' }}>
                         <ColumnGroup title="Time">
@@ -562,9 +568,6 @@ const Pharmacokinetic = () => {
                         <Column title={`Dose(${unit[2][opioid]})`} dataIndex="E" key="E" />
                         <Column title={`ESC(${unit[3][opioid]})`} dataIndex="F" key="F" />
                     </Table>
-                </TitleCard>
-                <TitleCard className="w-full" title={"Dose and Effect site concentration (Chart)"}>
-                    <Line data={chartData} options={options} />
                 </TitleCard>
             </div>
         </>
