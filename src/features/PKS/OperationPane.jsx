@@ -3,7 +3,7 @@ import dayjs from "dayjs"
 
 const format = 'HH:mm';
 
-const OperationPane = ({ operations, setOperations, ...rest }) => {
+const OperationPane = ({ operations, setOperations, unit, ...rest }) => {
     const onClick = () => {
         setOperations([...operations, { value: 0.0, time: 0 }])
     }
@@ -31,6 +31,7 @@ const OperationPane = ({ operations, setOperations, ...rest }) => {
                                 className="w-full"
                                 defaultValue={operation.time}
                                 onChange={(time) => setTime(index, time)}
+                                suffix={'min'}
                             />
                         }
                         <InputNumber
