@@ -16,7 +16,7 @@ import {
 } from 'chart.js';
 import { useEffect, useState } from "react";
 
-const { Column, ColumnGroup } = Table;
+// const { Column, ColumnGroup } = Table;
 
 ChartJS.register(
     CategoryScale,
@@ -636,7 +636,7 @@ const Pharmacokinetic = () => {
                 </div>
             </div>
             <div className="flex flex-wrap items-start">
-                <TitleCard className="w-full" title={"Anesthetic Effect (Table)"}>
+                {/* <TitleCard className="w-full" title={"Anesthetic Effect (Table)"}>
                     <Table dataSource={showTableData} bordered scroll={{ x: 'auto' }}>
                         <Column title='Copioid' dataIndex="Copioid" key="Copioid" />
                         <ColumnGroup title="Arousal out">
@@ -706,7 +706,7 @@ const Pharmacokinetic = () => {
                             <Column title='' dataIndex="SEV4" key="SEV4" />
                         </ColumnGroup>
                     </Table>
-                </TitleCard>
+                </TitleCard> */}
                 <TitleCard className="w-full" title={"Anesthetic Effect (Chart)"}>
                     <div className="flex">
                         <div className="text-center" style={{writingMode: "vertical-lr"}}>
@@ -716,6 +716,11 @@ const Pharmacokinetic = () => {
                         </div>
                         <Line data={chartData} options={{
                             responsive: true,
+                            elements: {
+                                point:{
+                                    radius: 0
+                                }
+                            },
                             plugins: {
                                 tooltip: {
                                     callbacks: {
