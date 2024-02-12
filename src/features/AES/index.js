@@ -519,10 +519,10 @@ const Pharmacokinetic = () => {
                     {
                         label: 'Anesthetic Effect',
                         data: [[ECS_RF.toFixed(2), Number(value2).toFixed(2)]],
-                        borderColor: '#F008',
-                        backgroundColor: '#F00',
-                        pointBackgroundColor: '#F008',
+                        borderColor: '#F00',
+                        backgroundColor: '#F008',
                         pointBorderColor: '#F00',
+                        pointBackgroundColor: '#F008',
                     },
                 ],
             }
