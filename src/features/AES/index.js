@@ -16,7 +16,7 @@ import {
 } from 'chart.js';
 import { useEffect, useState } from "react";
 
-const { Column, ColumnGroup } = Table;
+// const { Column, ColumnGroup } = Table;
 
 ChartJS.register(
     CategoryScale,
@@ -716,6 +716,11 @@ const Pharmacokinetic = () => {
                         </div>
                         <Line data={chartData} options={{
                             responsive: true,
+                            elements: {
+                                point:{
+                                    radius: 0
+                                }
+                            },
                             plugins: {
                                 tooltip: {
                                     callbacks: {
