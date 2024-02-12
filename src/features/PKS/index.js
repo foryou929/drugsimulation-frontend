@@ -71,8 +71,8 @@ const Pharmacokinetic = () => {
     const [time, setTime] = useState(2)
     const [startTime, setStartTime] = useState(dayjs('9.00', format))
     // Operations
-    const [operations1, setOperations1] = useState([{ time: 0, value: 1 }]);
-    const [operations2, setOperations2] = useState([{ time: 0, value: 0.2 }]);
+    const [operations1, setOperations1] = useState([{ type: 0, time: 0, value: 1 }]);
+    const [operations2, setOperations2] = useState([{ type: 0, time: 0, value: 0.2 }]);
     // Cha Page
     const [LBM, setLBM] = useState(0) //C7
     const [ABW, setABW] = useState(0) //C9
@@ -281,11 +281,15 @@ const Pharmacokinetic = () => {
         let Dose = 0
 
         for (let i = 0; i < time * 60; i++) {
+            let bolus = 0;
             operations1.map(operation => {
-                if (operation.time == i)
+                if (operation.type == 0 && operation.time == i)
                     Dose = operation.value
+                if (operation.type == 1 && operation.time == i)
+                    bolus += operation.value
             })
-            let X0 = BW * Dose / 60
+            let Dose2 = Dose + bolus;
+            let X0 = BW * Dose2 / 60
             let dx1_dt = -(K1.k10 + K1.k12 + K1.k13 + K1.k14) * X1 + K1.k21 * X2 + K1.k31 * X3 + K1.k41 * X4 + X0
             let dx2_dt = K1.k12 * X1 - K1.k21 * X2
             let dx3_dt = K1.k13 * X1 - K1.k31 * X3
@@ -302,7 +306,7 @@ const Pharmacokinetic = () => {
                 dx2_dt,
                 dx3_dt,
                 dx4_dt,
-                Dose,
+                Dose: Dose2,
                 ESC: X4 * 10000 / K1.V
             })
 
@@ -336,11 +340,15 @@ const Pharmacokinetic = () => {
         let Dose = 0
 
         for (let i = 0; i < time * 60; i++) {
+            let bolus = 0;
             operations2.map(operation => {
-                if (operation.time == i)
+                if (operation.type == 0 && operation.time == i)
                     Dose = operation.value
+                if (operation.type == 1 && operation.time == i)
+                    bolus += operation.value
             })
-            let X0 = opioid == 0 ? BW * Dose : Dose
+            let Dose2 = Dose + bolus;
+            let X0 = opioid == 0 ? BW * Dose2 : Dose2
             let dx1_dt = -(K2.k10 + K2.k12 + K2.k13 + K2.k14) * X1 + K2.k21 * X2 + K2.k31 * X3 + K2.k41 * X4 + X0
             let dx2_dt = K2.k12 * X1 - K2.k21 * X2
             let dx3_dt = K2.k13 * X1 - K2.k31 * X3
@@ -357,7 +365,7 @@ const Pharmacokinetic = () => {
                 dx2_dt,
                 dx3_dt,
                 dx4_dt,
-                Dose,
+                Dose: Dose2,
                 ESC: X4 * 10000 / K2.V
             })
 
@@ -425,7 +433,7 @@ const Pharmacokinetic = () => {
     return (
         <>
             <div className="flex flex-wrap">
-                <div className="w-full md:w-1/2 pr-0 md:pr-2">
+                <div className="w-full md:w-1/3 pr-0 md:pr-2">
                     <TitleCard title={"Patient"}>
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">HT:</p>
@@ -476,7 +484,7 @@ const Pharmacokinetic = () => {
                     </TitleCard>
                 </div>
 
-                <div className="w-full md:w-1/2 pl-0 md:pl-2">
+                <div className="w-full md:w-2/3 pl-0 md:pl-2">
                     <TitleCard title={"Agent"}>
                         <div className="w-full flex-wrap flex items-start">
                             <div className="w-full xl:w-1/2 mt-4 xl:pr-2">
@@ -492,7 +500,7 @@ const Pharmacokinetic = () => {
                                         onChange={setHypnotics}
                                     />
                                 </div>
-                                <OperationPane operations={operations1} setOperations={setOperations1} />
+                                <OperationPane operations={operations1} setOperations={setOperations1} startTime={startTime} unit={unit[0][hypnotics]} />
                             </div>
                             <div className="w-full xl:w-1/2 mt-4 xl:pl-2">
                                 <div className="w-full flex items-center">
@@ -507,7 +515,7 @@ const Pharmacokinetic = () => {
                                         onChange={setOpioid}
                                     />
                                 </div>
-                                <OperationPane operations={operations2} setOperations={setOperations2} />
+                                <OperationPane operations={operations2} setOperations={setOperations2} startTime={startTime} unit={unit[2][opioid]} />
                             </div>
                         </div>
                         <div className="flex w-full mt-4 items-center">
