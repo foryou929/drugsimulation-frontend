@@ -492,7 +492,7 @@ const Pharmacokinetic = () => {
                                         onChange={setHypnotics}
                                     />
                                 </div>
-                                <OperationPane operations={operations1} setOperations={setOperations1} startTime={startTime}/>
+                                <OperationPane operations={operations1} setOperations={setOperations1} startTime={startTime} unit={unit[0][hypnotics]}/>
                             </div>
                             <div className="w-full xl:w-1/2 mt-4 xl:pl-2">
                                 <div className="w-full flex items-center">
@@ -507,7 +507,7 @@ const Pharmacokinetic = () => {
                                         onChange={setOpioid}
                                     />
                                 </div>
-                                <OperationPane operations={operations2} setOperations={setOperations2} startTime={startTime}/>
+                                <OperationPane operations={operations2} setOperations={setOperations2} startTime={startTime} unit={unit[2][opioid]}/>
                             </div>
                         </div>
                         <div className="flex w-full mt-4 items-center">
