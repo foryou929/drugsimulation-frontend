@@ -3,7 +3,7 @@ import dayjs from "dayjs"
 
 const format = 'HH:mm';
 
-const OperationPane = ({ operations, setOperations, unit, ...rest }) => {
+const OperationPane = ({ operations, setOperations, startTime, ...rest }) => {
     const onClick = () => {
         setOperations([...operations, { value: 0.0, time: 0 }])
     }
@@ -24,7 +24,12 @@ const OperationPane = ({ operations, setOperations, unit, ...rest }) => {
         <div className="w-full" {...rest}>
             {
                 operations.map((operation, index) => {
-                    return <div key={index} className="w-full flex gap-2 mt-4">
+                    return <div key={index} className="w-full flex gap-2 mt-4 items-center">
+                        <div className="w-full text-sm">
+                            {
+                                `Time: ${startTime.add(operation.time, 'minutes').format('hh:mm')}`
+                            }
+                        </div>
                         {
                             index > 0 &&
                             <InputNumber
