@@ -73,5 +73,9 @@
     "email_is_required": "Please enter your email",
     "password_is_required": "Password is required",
     "name_is_required": "Name is required",
-    "login_with_google": "Login with Google"
+    "login_with_google": "Login with Google",
+    "save": "Save",
+    "simulation_save_success": "Simulation data has been saved successfully.",
+    "simulation_delete_success": "Simulation data has been deleted successfully.",
+    "result": "Result"
 }
