@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Radio, Select, Table, Slider, InputNumber, TimePicker, Input } from 'antd'
 import { Line } from 'react-chartjs-2';
@@ -473,6 +474,26 @@ const Pharmacokinetic = () => {
         })
     }
 
+    const [queryParameters] = useSearchParams()
+
+    useEffect(() => {
+        const _id = queryParameters.get('_id');
+        if (_id) {
+            query.get('/PKS/' + _id, ({ result }) => {
+                setName(result.name);
+                setHT(result.height);
+                setBW(result.weight);
+                setAge(result.age);
+                setGendor(result.gendor);
+                set_ASA_PS(result.ASA_PS);
+                setOperations1(result.remimazolam);
+                setOperations2(result.dexmedetomidine);
+                setOperations3(result.remifentanil);
+                setOperations4(result.fentanyl);
+            })
+        }
+    }, [])
+
     return (
         <>
             <div className="flex flex-wrap">
@@ -481,7 +502,7 @@ const Pharmacokinetic = () => {
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">{t('name')}:</p>
                             <div className="w-5/6 flex gap-2">
-                                <Input className="flex-grow" onChange={(e) => setName(e.target.value)} />
+                                <Input className="flex-grow" onChange={(e) => setName(e.target.value)} value={name} />
                                 <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onSave}>{t('save')}</button>
                             </div>
                         </div>

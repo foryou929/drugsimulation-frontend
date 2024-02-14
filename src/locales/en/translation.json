@@ -76,5 +76,6 @@
     "login_with_google": "Login with Google",
     "save": "Save",
     "simulation_save_success": "Simulation data has been saved successfully.",
-    "simulation_delete_success": "Simulation data has been deleted successfully."
+    "simulation_delete_success": "Simulation data has been deleted successfully.",
+    "result": "Result"
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Input, Radio, Select, /*Table,*/ InputNumber } from 'antd'
 import _ from 'lodash'
@@ -548,6 +549,25 @@ const Anesthetic = () => {
         })
     }
 
+    const [queryParameters] = useSearchParams()
+
+    useEffect(() => {
+        const _id = queryParameters.get('_id');
+        if (_id) {
+            query.get('/AES/' + _id, ({ result }) => {
+                setName(result.name);
+                setHT(result.height);
+                setBW(result.weight);
+                setAge(result.age);
+                setGendor(result.gendor);
+                set_ASA_PS(result.ASA_PS);
+                set_Dose_RF(result.amount);
+                setHypnotics(result.hypnotics);
+                setValue1(result.percent);
+            })
+        }
+    }, [])
+
     return (
         <>
             <div className="flex flex-wrap">
@@ -556,7 +576,7 @@ const Anesthetic = () => {
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">{t('name')}:</p>
                             <div className="w-5/6 flex gap-2">
-                                <Input className="flex-grow" onChange={(e) => setName(e.target.value)} />
+                                <Input className="flex-grow" onChange={(e) => setName(e.target.value)} value={name} />
                                 <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onSave}>{t('save')}</button>
                             </div>
                         </div>
