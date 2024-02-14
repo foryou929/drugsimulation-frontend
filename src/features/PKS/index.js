@@ -1,5 +1,7 @@
-import TitleCard from "../../components/Cards/TitleCard"
-import { Radio, Select, Table, Slider, InputNumber, TimePicker } from 'antd'
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Radio, Select, Table, Slider, InputNumber, TimePicker, Input } from 'antd'
 import { Line } from 'react-chartjs-2';
 import dayjs from 'dayjs'
 import {
@@ -13,8 +15,9 @@ import {
     Filler,
     Legend,
 } from 'chart.js';
-import { useEffect, useState } from "react";
 
+import query from "../../utils/query";
+import TitleCard from "../../components/Cards/TitleCard"
 import OperationPane from "./OperationPane"
 
 const { Column, ColumnGroup } = Table;
@@ -62,6 +65,7 @@ const ASA_PS_Options = [
 ]
 
 const Pharmacokinetic = () => {
+    const { t } = useTranslation();
     // Main params
     const [HT, setHT] = useState(170)
     const [BW, setBW] = useState(70)
@@ -74,8 +78,10 @@ const Pharmacokinetic = () => {
     const [time, setTime] = useState(2)
     const [startTime, setStartTime] = useState(dayjs('9.00', format))
     // Operations
-    const [operations1, setOperations1] = useState([{ type: 0, time: 0, value: 1 }]);
-    const [operations2, setOperations2] = useState([{ type: 0, time: 0, value: 0.2 }]);
+    const [operations1, setOperations1] = useState([{ mode: 0, time: 0, value: 1 }]);
+    const [operations2, setOperations2] = useState([{ mode: 0, time: 0, value: 1 }]);
+    const [operations3, setOperations3] = useState([{ mode: 0, time: 0, value: 0.2 }]);
+    const [operations4, setOperations4] = useState([{ mode: 0, time: 0, value: 0.2 }]);
     // Cha Page
     const [LBM, setLBM] = useState(0) //C7
     const [ABW, setABW] = useState(0) //C9
@@ -285,12 +291,21 @@ const Pharmacokinetic = () => {
 
         for (let i = 0; i < time * 60; i++) {
             let bolus = 0;
-            operations1.map(operation => {
-                if (operation.type == 0 && operation.time == i)
-                    Dose = operation.value
-                if (operation.type == 1 && operation.time == i)
-                    bolus += operation.value
-            })
+            if (hypnotics == 0) {
+                operations1.map(operation => {
+                    if (operation.mode == 0 && operation.time == i)
+                        Dose = operation.value
+                    if (operation.mode == 1 && operation.time == i)
+                        bolus += operation.value
+                })
+            } else {
+                operations2.map(operation => {
+                    if (operation.mode == 0 && operation.time == i)
+                        Dose = operation.value
+                    if (operation.mode == 1 && operation.time == i)
+                        bolus += operation.value
+                })
+            }
             let Dose2 = Dose + bolus;
             let X0 = BW * Dose2 / 60
             let dx1_dt = -(K1.k10 + K1.k12 + K1.k13 + K1.k14) * X1 + K1.k21 * X2 + K1.k31 * X3 + K1.k41 * X4 + X0
@@ -328,7 +343,7 @@ const Pharmacokinetic = () => {
         }
 
         setTData1(newTData)
-    }, [time, startTime, K1, operations1])
+    }, [time, startTime, K1, operations1, operations2])
 
     useEffect(() => {
         let $H = startTime.$H
@@ -344,12 +359,21 @@ const Pharmacokinetic = () => {
 
         for (let i = 0; i < time * 60; i++) {
             let bolus = 0;
-            operations2.map(operation => {
-                if (operation.type == 0 && operation.time == i)
-                    Dose = operation.value
-                if (operation.type == 1 && operation.time == i)
-                    bolus += operation.value
-            })
+            if (opioid == 0) {
+                operations3.map(operation => {
+                    if (operation.mode == 0 && operation.time == i)
+                        Dose = operation.value
+                    if (operation.mode == 1 && operation.time == i)
+                        bolus += operation.value
+                })
+            } else {
+                operations4.map(operation => {
+                    if (operation.mode == 0 && operation.time == i)
+                        Dose = operation.value
+                    if (operation.mode == 1 && operation.time == i)
+                        bolus += operation.value
+                })
+            }
             let Dose2 = Dose + bolus;
             let X0 = opioid == 0 ? BW * Dose2 : Dose2
             let dx1_dt = -(K2.k10 + K2.k12 + K2.k13 + K2.k14) * X1 + K2.k21 * X2 + K2.k31 * X3 + K2.k41 * X4 + X0
@@ -386,7 +410,7 @@ const Pharmacokinetic = () => {
             }
         }
         setTData2(newTData)
-    }, [time, startTime, K2, operations2])
+    }, [time, startTime, K2, operations3, operations4])
 
     // PKS page
 
@@ -433,11 +457,55 @@ const Pharmacokinetic = () => {
         }
     }, [TData1, TData2])
 
+    const [name, setName] = useState('');
+
+    const onSave = () => {
+        query.post('/PKS', {
+            name,
+            height: HT,
+            weight: BW,
+            age,
+            gendor,
+            ASA_PS,
+            remimazolam: operations1,
+            dexmedetomidine: operations2,
+            remifentanil: operations3,
+            fentanyl: operations4,
+        })
+    }
+
+    const [queryParameters] = useSearchParams()
+
+    useEffect(() => {
+        const _id = queryParameters.get('_id');
+        if (_id) {
+            query.get('/PKS/' + _id, ({ result }) => {
+                setName(result.name);
+                setHT(result.height);
+                setBW(result.weight);
+                setAge(result.age);
+                setGendor(result.gendor);
+                set_ASA_PS(result.ASA_PS);
+                setOperations1(result.remimazolam);
+                setOperations2(result.dexmedetomidine);
+                setOperations3(result.remifentanil);
+                setOperations4(result.fentanyl);
+            })
+        }
+    }, [])
+
     return (
         <>
             <div className="flex flex-wrap">
                 <div className="w-full xl:w-1/3 pr-0 xl:pr-2">
                     <TitleCard title={"Patient"}>
+                        <div className="flex w-full mt-4 items-center">
+                            <p className="w-1/6 text-[12px]">{t('name')}:</p>
+                            <div className="w-5/6 flex gap-2">
+                                <Input className="flex-grow" onChange={(e) => setName(e.target.value)} value={name} />
+                                <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onSave}>{t('save')}</button>
+                            </div>
+                        </div>
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">HT:</p>
                             <InputNumber
@@ -503,7 +571,7 @@ const Pharmacokinetic = () => {
                                         onChange={setHypnotics}
                                     />
                                 </div>
-                                <OperationPane operations={operations1} setOperations={setOperations1} startTime={startTime} unit={unit1[hypnotics]} />
+                                <OperationPane operations={hypnotics == 0 ? operations1 : operations2} setOperations={hypnotics == 0 ? setOperations1 : setOperations2} startTime={startTime} unit={unit1[hypnotics]} />
                             </div>
                             <div className="w-full xl:w-1/2 mt-4 xl:pl-2">
                                 <div className="w-full flex items-center">
@@ -518,7 +586,7 @@ const Pharmacokinetic = () => {
                                         onChange={setOpioid}
                                     />
                                 </div>
-                                <OperationPane operations={operations2} setOperations={setOperations2} startTime={startTime} unit={unit2[opioid]} />
+                                <OperationPane operations={opioid == 0 ? operations3 : operations4} setOperations={opioid == 0 ? setOperations3 : setOperations4} startTime={startTime} unit={unit2[opioid]} />
                             </div>
                         </div>
                         <div className="flex w-full mt-4 items-center">
