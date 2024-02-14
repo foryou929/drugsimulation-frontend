@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Input, Radio, Select, /*Table,*/ InputNumber } from 'antd'
+import { saveAs } from 'file-saver';
+import * as XLSX from 'xlsx';
 import _ from 'lodash'
 import {
     Chart as ChartJS,
@@ -568,6 +570,89 @@ const Anesthetic = () => {
         }
     }, [])
 
+    const chartRef = useRef();
+
+    const onDownload = () => {
+        const canvas = chartRef.current.canvas;
+        const base64Image = canvas.toDataURL('image/png');
+        saveAs(base64Image, `${name}.png`);
+
+        const data = [];
+
+        data[1] = [];
+        data[2] = [];
+        data[3] = [];
+        data[4] = [];
+        data[5] = [];
+        data[6] = [];
+        data[7] = [];
+        data[8] = [];
+        data[9] = [];
+
+        data[1][1] = 'Patient';
+        data[1][4] = 'Agents';
+
+        data[2][1] = 'HT';
+        data[3][1] = 'BW';
+        data[4][1] = 'Age';
+        data[5][1] = 'Gendor';
+        data[6][1] = 'ASA-PS';
+
+        data[2][2] = HT;
+        data[3][2] = BW;
+        data[4][2] = age;
+        data[5][2] = gendor == 0 ? 'Male' : 'Female';
+        data[6][2] = ASA_PS == 1 ? 'I' : ASA_PS == 2 ? 'II' : ASA_PS == 3 ? 'III' : ASA_PS == 4 ? 'IV' : 'V';
+
+        data[2][3] = 'cm';
+        data[3][3] = 'kg';
+
+        data[2][4] = 'Dose(RF)'
+        data[3][4] = 'Hypnotics';
+        data[4][4] = label1[hypnotics];
+        data[5][4] = label2[hypnotics];
+        data[6][4] = 'ECS(RF)';
+        data[7][4] = 'ECS(RZ)';
+        data[8][4] = 'P Awake';
+        data[9][4] = 'P CVR';
+
+        data[2][5] = Dose_RF;
+        data[3][5] = label1[hypnotics];
+        data[4][5] = value1;
+        data[5][5] = Number(value2).toFixed(2);
+        data[6][5] = Number(ECS_RF).toFixed(2);
+        data[7][5] = Number(ECS_RZ).toFixed(2);
+        data[8][5] = Number(P_Awake).toFixed(2);
+        data[9][5] = Number(P_CVR).toFixed(2);
+
+        data[2][6] = 'μg/kg/min';
+        data[4][6] = unit1[hypnotics];
+        data[5][6] = unit2[hypnotics];
+        data[6][6] = 'μg/mL';
+        data[7][6] = 'μg/mL';
+        data[8][6] = '%';
+
+        const worksheet = XLSX.utils.aoa_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+
+        // Merge cells
+        worksheet['!merges'] = [
+            { s: { r: 1, c: 1 }, e: { r: 1, c: 3 } },
+            { s: { r: 1, c: 4 }, e: { r: 1, c: 5 } },
+        ];
+
+        worksheet['!cols'] = [];
+
+        for (let i = 0; i <= 6; i++) {
+            worksheet['!cols'][i] = { wch: i == 0 ? 2 : 12 };
+        }
+
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'PKS');
+        const excelBuffer = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
+
+        saveAs(new Blob([excelBuffer]), `${name}.xlsx`);
+    };
+
     return (
         <>
             <div className="flex flex-wrap">
@@ -578,6 +663,7 @@ const Anesthetic = () => {
                             <div className="w-5/6 flex gap-2">
                                 <Input className="flex-grow" onChange={(e) => setName(e.target.value)} value={name} />
                                 <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onSave}>{t('save')}</button>
+                                <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onDownload}>{t('download')}</button>
                             </div>
                         </div>
                         <div className="flex w-full mt-4 items-center">
@@ -636,7 +722,7 @@ const Anesthetic = () => {
                             <InputNumber
                                 className="w-5/6"
                                 suffix={'μg/kg/min'}
-                                defaultValue={Dose_RF}
+                                value={Dose_RF}
                                 onChange={(v) => set_Dose_RF(v)}
                             />
                         </div>
@@ -654,7 +740,7 @@ const Anesthetic = () => {
                             <InputNumber
                                 className="w-5/6"
                                 suffix={unit1[hypnotics]}
-                                defaultValue={value1}
+                                value={value1}
                                 onChange={(v) => setValue1(v)}
                             />
                         </div>
@@ -784,7 +870,7 @@ const Anesthetic = () => {
                                 {label2[hypnotics] + "(" + unit2[hypnotics] + ")"}
                             </div>
                         </div>
-                        <Line data={chartData} options={{
+                        <Line ref={chartRef} data={chartData} options={{
                             responsive: true,
                             plugins: {
                                 tooltip: {
