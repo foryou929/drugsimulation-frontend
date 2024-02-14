@@ -1,7 +1,6 @@
-import TitleCard from "../../components/Cards/TitleCard"
-import { Input, Radio, Select, Table, InputNumber } from 'antd'
-import { Line } from 'react-chartjs-2';
-
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Input, Radio, Select, /*Table,*/ InputNumber } from 'antd'
 import _ from 'lodash'
 import {
     Chart as ChartJS,
@@ -14,7 +13,10 @@ import {
     Filler,
     Legend,
 } from 'chart.js';
-import { useEffect, useState } from "react";
+
+import query from "../../utils/query";
+import { Line } from 'react-chartjs-2';
+import TitleCard from "../../components/Cards/TitleCard"
 
 // const { Column, ColumnGroup } = Table;
 
@@ -49,7 +51,8 @@ const Hypnotics_Options = [
     { value: 3, label: 'RZ' },
 ]
 
-const Pharmacokinetic = () => {
+const Anesthetic = () => {
+    const { t } = useTranslation();
     // Main params
     const [HT, setHT] = useState(170)
     const [BW, setBW] = useState(70)
@@ -529,11 +532,34 @@ const Pharmacokinetic = () => {
         )
     }, [tableData, ECS_RF, value2])
 
+    const [name, setName] = useState('');
+
+    const onSave = () => {
+        query.post('/AES', {
+            name,
+            height: HT,
+            weight: BW,
+            age,
+            gendor,
+            ASA_PS,
+            amount: Dose_RF,
+            hypnotics,
+            percent: value1
+        })
+    }
+
     return (
         <>
             <div className="flex flex-wrap">
                 <div className="w-full md:w-1/2 pr-0 md:pr-2">
                     <TitleCard title={"Patient"}>
+                        <div className="flex w-full mt-4 items-center">
+                            <p className="w-1/6 text-[12px]">{t('name')}:</p>
+                            <div className="w-5/6 flex gap-2">
+                                <Input className="flex-grow" onChange={(e) => setName(e.target.value)} />
+                                <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onSave}>{t('save')}</button>
+                            </div>
+                        </div>
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">HT:</p>
                             <InputNumber
@@ -756,4 +782,4 @@ const Pharmacokinetic = () => {
     )
 }
 
-export default Pharmacokinetic
+export default Anesthetic

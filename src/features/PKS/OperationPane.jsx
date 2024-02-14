@@ -2,7 +2,7 @@ import { InputNumber, Select } from "antd"
 
 const OperationPane = ({ operations, setOperations, startTime, unit, ...rest }) => {
     const onClick = () => {
-        setOperations([...operations, { type: 0, value: 0.0, time: 0 }])
+        setOperations([...operations, { mode: 0, value: 0.0, time: 0 }])
     }
     const onRemove = (index) => {
         setOperations(operations.filter((v, i) => i != index))
@@ -17,9 +17,9 @@ const OperationPane = ({ operations, setOperations, startTime, unit, ...rest }) 
         newOperations[index].value = value < 0 ? 0 : value;
         setOperations(newOperations);
     }
-    const setType = (index, value) => {
+    const setMode = (index, value) => {
         const newOperations = [...operations];
-        newOperations[index].type = value;
+        newOperations[index].mode = value;
         setOperations(newOperations);
     }
     return (
@@ -33,8 +33,8 @@ const OperationPane = ({ operations, setOperations, startTime, unit, ...rest }) 
                                     { value: 0, label: 'Continuous' },
                                     { value: 1, label: 'Bolus' }
                                 ]}
-                                value={operation.type}
-                                onChange={(v) => setType(index, v)}
+                                value={operation.mode}
+                                onChange={(v) => setMode(index, v)}
                             />
                         }
                         {
@@ -52,7 +52,7 @@ const OperationPane = ({ operations, setOperations, startTime, unit, ...rest }) 
                             defaultValue={operation.value}
                             onChange={(value) => setValue(index, value)}
                             addonBefore={index == 0 && "Initial"}
-                            suffix={unit[operation.type]}
+                            suffix={unit[operation.mode]}
                             value={operation.value}
                         />
                         {
