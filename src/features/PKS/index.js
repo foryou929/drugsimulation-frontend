@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Radio, Select, Table, Slider, InputNumber, TimePicker, Input } from 'antd'
+import { saveAs } from 'file-saver';
+import * as XLSX from 'xlsx';
 import { Line } from 'react-chartjs-2';
 import dayjs from 'dayjs'
 import {
@@ -494,6 +496,99 @@ const Pharmacokinetic = () => {
         }
     }, [])
 
+    const chartRef = useRef();
+
+    const onDownload = () => {
+        const canvas = chartRef.current.canvas;
+        const base64Image = canvas.toDataURL('image/png');
+        saveAs(base64Image, `${name}.png`);
+
+        const data = [];
+
+        data[1] = [];
+        data[2] = [];
+        data[3] = [];
+        data[4] = [];
+        data[5] = [];
+        data[6] = [];
+
+        data[1][1] = 'Patient';
+        data[1][4] = 'Agents';
+
+        data[2][1] = 'HT';
+        data[3][1] = 'BW';
+        data[4][1] = 'Age';
+        data[5][1] = 'Gendor';
+        data[6][1] = 'ASA-PS';
+
+        data[2][2] = HT;
+        data[3][2] = BW;
+        data[4][2] = age;
+        data[5][2] = gendor == 0 ? 'Male' : 'Female';
+        data[6][2] = ASA_PS == 1 ? 'I' : ASA_PS == 2 ? 'II' : ASA_PS == 3 ? 'III' : 'IV';
+
+        data[2][3] = 'cm';
+        data[3][3] = 'kg';
+
+        data[2][4] = 'Hypnotics';
+        data[3][4] = 'Opioid';
+        data[4][4] = 'Simulation Time [h]';
+        data[6][4] = 'Start'
+
+        data[2][5] = hypnotics == 0 ? 'Remimazolam' : 'Dexmedetomidine';
+        data[3][5] = opioid == 0 ? 'Remifentanil' : 'Fentanyl';
+        data[4][5] = time;
+        data[6][5] = startTime.format('HH:mm');
+
+        data[9] = []
+        data[9][1] = '[h:m]';
+        data[9][2] = 'min';
+
+        data[8] = [];
+        data[8][1] = 'Time';
+        data[8][3] = `Dose(${unit[0][hypnotics]})`;
+        data[8][4] = `ESC(${unit[1][hypnotics]})`;
+        data[8][5] = `Dose(${unit[2][opioid]})`;
+        data[8][6] = `ESC(${unit[3][opioid]})`;
+
+        for (let i = 0, j = 10; i < tableData.length; i++, j++) {
+            data[j] = [];
+            data[j][1] = tableData[i].A;
+            data[j][2] = tableData[i].B;
+            data[j][3] = tableData[i].C;
+            data[j][4] = tableData[i].D;
+            data[j][5] = tableData[i].E;
+            data[j][6] = tableData[i].F;
+        }
+
+        const worksheet = XLSX.utils.aoa_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+
+        // Merge cells
+        worksheet['!merges'] = [
+            { s: { r: 1, c: 1 }, e: { r: 1, c: 3 } },
+            { s: { r: 1, c: 4 }, e: { r: 1, c: 5 } },
+            { s: { r: 4, c: 4 }, e: { r: 5, c: 4 } },
+            { s: { r: 4, c: 5 }, e: { r: 5, c: 5 } },
+            { s: { r: 8, c: 1 }, e: { r: 8, c: 2 } },
+            { s: { r: 8, c: 3 }, e: { r: 9, c: 3 } },
+            { s: { r: 8, c: 4 }, e: { r: 9, c: 4 } },
+            { s: { r: 8, c: 5 }, e: { r: 9, c: 5 } },
+            { s: { r: 8, c: 6 }, e: { r: 9, c: 6 } }
+        ];
+
+        worksheet['!cols'] = [];
+
+        for (let i = 0; i <= 6; i++) {
+            worksheet['!cols'][i] = { wch: i == 0 ? 2 : 12 };
+        }
+
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'PKS');
+        const excelBuffer = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
+
+        saveAs(new Blob([excelBuffer]), `${name}.xlsx`);
+    };
+
     return (
         <>
             <div className="flex flex-wrap">
@@ -504,6 +599,7 @@ const Pharmacokinetic = () => {
                             <div className="w-5/6 flex gap-2">
                                 <Input className="flex-grow" onChange={(e) => setName(e.target.value)} value={name} />
                                 <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onSave}>{t('save')}</button>
+                                <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onDownload}>{t('download')}</button>
                             </div>
                         </div>
                         <div className="flex w-full mt-4 items-center">
@@ -623,7 +719,7 @@ const Pharmacokinetic = () => {
             </div>
             <div className="flex flex-wrap items-start">
                 <TitleCard className="w-full" title={"Dose and Effect site concentration (Chart)"}>
-                    <Line data={chartData} options={options} />
+                    <Line data={chartData} options={options} ref={chartRef} />
                 </TitleCard>
                 <TitleCard className="w-full" title={"Dose and Effect site concentration (Table)"}>
                     <Table dataSource={tableData} bordered scroll={{ x: 'auto' }}>

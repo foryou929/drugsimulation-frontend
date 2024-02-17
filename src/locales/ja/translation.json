@@ -77,5 +77,6 @@
     "save": "保存",
     "simulation_save_success": "シミュレーションデータは正常に保存されました。",
     "simulation_delete_success": "シミュレーションデータは正常に削除されました。",
-    "result": "結果"
+    "result": "結果",
+    "download": "ダウンロード"
 }
