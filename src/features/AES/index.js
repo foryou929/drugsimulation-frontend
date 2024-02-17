@@ -776,7 +776,7 @@ const Anesthetic = () => {
                             <Input
                                 className="w-5/6"
                                 suffix={'%'}
-                                value={P_Awake.toFixed(2)}
+                                value={(P_Awake * 100.0).toFixed(2)}
                                 readOnly
                             />
                         </div>
@@ -784,7 +784,8 @@ const Anesthetic = () => {
                             <p className="w-1/6 text-[12px]">P<sub>CVR</sub>:</p>
                             <Input
                                 className="w-5/6"
-                                value={P_CVR.toFixed(2)}
+                                suffix={'%'}
+                                value={(P_CVR * 100.0).toFixed(2)}
                                 readOnly
                             />
                         </div>
