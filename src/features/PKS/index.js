@@ -42,11 +42,13 @@ export const options = {
             type: 'linear',
             display: true,
             position: 'left',
+            min: 0
         },
         y2: {
             type: 'linear',
             display: true,
             position: 'right',
+            min: 0
         },
     },
 };
