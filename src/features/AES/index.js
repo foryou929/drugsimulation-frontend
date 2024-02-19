@@ -896,12 +896,18 @@ const Anesthetic = () => {
                                 title: {
                                     display: true,
                                     text: 'Remifentanil (ng/mL)',
+                                    font: {
+                                        weight: 'bold',
+                                    }
                                 },
                             },
                             y: {
                                 title: {
                                     display: true,
                                     text: `${label2[hypnotics]} (${unit2[hypnotics]})`,
+                                    font: {
+                                        weight: 'bold',
+                                    }
                                 },
                             },
                         },
