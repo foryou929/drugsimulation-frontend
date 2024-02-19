@@ -560,16 +560,18 @@ const Pharmacokinetic = () => {
         data[4][5] = time;
         data[6][5] = startTime.format('HH:mm');
 
+        data[8] = [];
+        data[8][1] = 'Time';
+        data[8][3] = data[2][5];
+        data[8][5] = data[3][5];
+
         data[9] = []
         data[9][1] = '[h:m]';
         data[9][2] = 'min';
-
-        data[8] = [];
-        data[8][1] = 'Time';
-        data[8][3] = `Dose(${unit[0][hypnotics]})`;
-        data[8][4] = `ESC(${unit[1][hypnotics]})`;
-        data[8][5] = `Dose(${unit[2][opioid]})`;
-        data[8][6] = `ESC(${unit[3][opioid]})`;
+        data[9][3] = `Dose(${unit[0][hypnotics]})`;
+        data[9][4] = `ESC(${unit[1][hypnotics]})`;
+        data[9][5] = `Dose(${unit[2][opioid]})`;
+        data[9][6] = `ESC(${unit[3][opioid]})`;
 
         for (let i = 0, j = 10; i < tableData.length; i++, j++) {
             data[j] = [];
@@ -591,10 +593,8 @@ const Pharmacokinetic = () => {
             { s: { r: 4, c: 4 }, e: { r: 5, c: 4 } },
             { s: { r: 4, c: 5 }, e: { r: 5, c: 5 } },
             { s: { r: 8, c: 1 }, e: { r: 8, c: 2 } },
-            { s: { r: 8, c: 3 }, e: { r: 9, c: 3 } },
-            { s: { r: 8, c: 4 }, e: { r: 9, c: 4 } },
-            { s: { r: 8, c: 5 }, e: { r: 9, c: 5 } },
-            { s: { r: 8, c: 6 }, e: { r: 9, c: 6 } }
+            { s: { r: 8, c: 3 }, e: { r: 8, c: 4 } },
+            { s: { r: 8, c: 5 }, e: { r: 8, c: 6 } },
         ];
 
         worksheet['!cols'] = [];

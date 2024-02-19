@@ -18,7 +18,7 @@ import Subtitle from "../Typography/Subtitle"
               <div className="divider mt-2"></div>
           
               {/** Card Body */}
-              <div className='h-full w-full pb-6 bg-base-100'>
+              <div className='h-full w-full pb-4 bg-base-100'>
                   {children}
               </div>
           </div>
