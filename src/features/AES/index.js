@@ -574,7 +574,23 @@ const Anesthetic = () => {
 
     const onDownload = () => {
         const canvas = chartRef.current.canvas;
-        const base64Image = canvas.toDataURL('image/png');
+
+        // Set the desired background color
+        const backgroundColor = 'white';
+
+        // Create a new canvas element with the desired background color
+        const newCanvas = document.createElement('canvas');
+        newCanvas.width = canvas.width;
+        newCanvas.height = canvas.height;
+        const context = newCanvas.getContext('2d');
+        context.fillStyle = backgroundColor;
+        context.fillRect(0, 0, newCanvas.width, newCanvas.height);
+        context.drawImage(canvas, 0, 0);
+
+        // Convert the new canvas to a base64 image with the white background
+        const base64Image = newCanvas.toDataURL('image/png');
+
+        // Save the image with the white background
         saveAs(base64Image, `${name}.png`);
 
         const data = [];
@@ -631,6 +647,7 @@ const Anesthetic = () => {
         data[6][6] = 'μg/mL';
         data[7][6] = 'μg/mL';
         data[8][6] = '%';
+        data[9][6] = '%';
 
         const worksheet = XLSX.utils.aoa_to_sheet(data);
         const workbook = XLSX.utils.book_new();
@@ -865,24 +882,36 @@ const Anesthetic = () => {
                     </Table>
                 </TitleCard> */}
                 <TitleCard className="w-full" title={"Anesthetic Effect (Chart)"}>
-                    <div className="flex">
-                        <div className="text-center" style={{ writingMode: "vertical-lr" }}>
-                            <div className="rotate-180">
-                                {label2[hypnotics] + "(" + unit2[hypnotics] + ")"}
-                            </div>
-                        </div>
-                        <Line ref={chartRef} data={chartData} options={{
-                            responsive: true,
-                            plugins: {
-                                tooltip: {
-                                    callbacks: {
-                                        label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
+                    <Line ref={chartRef} data={chartData} options={{
+                        responsive: true,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
+                                }
+                            },
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Remifentanil (ng/mL)',
+                                    font: {
+                                        weight: 'bold',
                                     }
                                 },
                             },
-                        }} />
-                    </div>
-                    <div className="text-center">Remifentanil (ng/mL)</div>
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: `${label2[hypnotics]} (${unit2[hypnotics]})`,
+                                    font: {
+                                        weight: 'bold',
+                                    }
+                                },
+                            },
+                        },
+                    }} />
                 </TitleCard>
             </div>
         </>
