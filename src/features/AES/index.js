@@ -631,6 +631,7 @@ const Anesthetic = () => {
         data[6][6] = 'μg/mL';
         data[7][6] = 'μg/mL';
         data[8][6] = '%';
+        data[9][6] = '%';
 
         const worksheet = XLSX.utils.aoa_to_sheet(data);
         const workbook = XLSX.utils.book_new();
