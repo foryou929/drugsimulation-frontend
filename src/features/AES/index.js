@@ -865,24 +865,32 @@ const Anesthetic = () => {
                     </Table>
                 </TitleCard> */}
                 <TitleCard className="w-full" title={"Anesthetic Effect (Chart)"}>
-                    <div className="flex">
-                        <div className="text-center" style={{ writingMode: "vertical-lr" }}>
-                            <div className="rotate-180">
-                                {label2[hypnotics] + "(" + unit2[hypnotics] + ")"}
-                            </div>
-                        </div>
-                        <Line ref={chartRef} data={chartData} options={{
-                            responsive: true,
-                            plugins: {
-                                tooltip: {
-                                    callbacks: {
-                                        label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
-                                    }
+                    <Line ref={chartRef} data={chartData} options={{
+                        responsive: true,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
+                                }
+                            },
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Remifentanil (ng/mL)',
+                                    color: 'white',
                                 },
                             },
-                        }} />
-                    </div>
-                    <div className="text-center">Remifentanil (ng/mL)</div>
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: `${label2[hypnotics]} (${unit2[hypnotics]})`,
+                                    color: 'white',
+                                },
+                            },
+                        },
+                    }} />
                 </TitleCard>
             </div>
         </>
