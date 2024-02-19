@@ -574,7 +574,23 @@ const Anesthetic = () => {
 
     const onDownload = () => {
         const canvas = chartRef.current.canvas;
-        const base64Image = canvas.toDataURL('image/png');
+
+        // Set the desired background color
+        const backgroundColor = 'white';
+
+        // Create a new canvas element with the desired background color
+        const newCanvas = document.createElement('canvas');
+        newCanvas.width = canvas.width;
+        newCanvas.height = canvas.height;
+        const context = newCanvas.getContext('2d');
+        context.fillStyle = backgroundColor;
+        context.fillRect(0, 0, newCanvas.width, newCanvas.height);
+        context.drawImage(canvas, 0, 0);
+
+        // Convert the new canvas to a base64 image with the white background
+        const base64Image = newCanvas.toDataURL('image/png');
+
+        // Save the image with the white background
         saveAs(base64Image, `${name}.png`);
 
         const data = [];
