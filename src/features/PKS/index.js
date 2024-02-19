@@ -426,16 +426,20 @@ const Pharmacokinetic = () => {
                 {
                     label: `${medicine[0][hypnotics]} [${unit[1][hypnotics]}]`,
                     data: TData1.map(v => v.ESC),
+                    yAxisID: 'y1',
                     borderColor: 'rgb(255, 99, 132)',
                     backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                    yAxisID: 'y1',
+                    pointBackgroundColor: 'transparent',
+                    pointBorderColor: 'transparent'
                 },
                 {
                     label: `${medicine[1][opioid]} [${unit[3][opioid]}]`,
                     data: TData2.map(v => v.ESC),
+                    yAxisID: 'y2',
                     borderColor: 'rgb(53, 162, 235)',
                     backgroundColor: 'rgba(53, 162, 235, 0.5)',
-                    yAxisID: 'y2',
+                    pointBackgroundColor: 'transparent',
+                    pointBorderColor: 'transparent'
                 },
             ],
         })
@@ -500,7 +504,23 @@ const Pharmacokinetic = () => {
 
     const onDownload = () => {
         const canvas = chartRef.current.canvas;
-        const base64Image = canvas.toDataURL('image/png');
+
+        // Set the desired background color
+        const backgroundColor = 'white';
+
+        // Create a new canvas element with the desired background color
+        const newCanvas = document.createElement('canvas');
+        newCanvas.width = canvas.width;
+        newCanvas.height = canvas.height;
+        const context = newCanvas.getContext('2d');
+        context.fillStyle = backgroundColor;
+        context.fillRect(0, 0, newCanvas.width, newCanvas.height);
+        context.drawImage(canvas, 0, 0);
+
+        // Convert the new canvas to a base64 image with the white background
+        const base64Image = newCanvas.toDataURL('image/png');
+
+        // Save the image with the white background
         saveAs(base64Image, `${name}.png`);
 
         const data = [];
@@ -532,7 +552,7 @@ const Pharmacokinetic = () => {
 
         data[2][4] = 'Hypnotics';
         data[3][4] = 'Opioid';
-        data[4][4] = 'Simulation Time [h]';
+        data[4][4] = 'Simulation duration [h]';
         data[6][4] = 'Start'
 
         data[2][5] = hypnotics == 0 ? 'Remimazolam' : 'Dexmedetomidine';
@@ -686,7 +706,7 @@ const Pharmacokinetic = () => {
                             </div>
                         </div>
                         <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/6 text-[12px]">Simulation time:</p>
+                            <p className="w-1/6 text-[12px]">Simulation duration:</p>
                             <div className="w-5/6 flex gap-4">
                                 <InputNumber
                                     className="w-1/2"
@@ -694,6 +714,7 @@ const Pharmacokinetic = () => {
                                     max={12}
                                     value={time}
                                     onChange={setTime}
+                                    suffix={'h'}
                                 />
                                 <Slider
                                     className="w-1/2"
