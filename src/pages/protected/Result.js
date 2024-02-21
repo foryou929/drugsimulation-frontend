@@ -73,17 +73,17 @@ function Result() {
 
     return (
         <div className='flex gap-4 flex-wrap lg:flex-nowrap'>
-            <TitleCard className="flex-grow" title={t('pharmacokinetic')}>
-                <Input addonBefore={<SearchOutlined />} onChange={(e) => setSearch1(e.target.value)} />
-                <Table bordered scroll={{ x: 'auto' }} dataSource={tableData1} className='mt-4'>
+            <TitleCard className="flex-grow" title={"Anesthetic Effect"}>
+                <Input addonBefore={<SearchOutlined />} onChange={(e) => setSearch2(e.target.value)} />
+                <Table bordered scroll={{ x: 'auto' }} dataSource={tableData2} className='mt-4'>
                     <Column title={t('datetime')} dataIndex="datetime" key="datetime" />
                     <Column title={t('name')} dataIndex="name" key="name" />
                     <Column title={``} dataIndex="action" key="action" />
                 </Table>
             </TitleCard>
-            <TitleCard className="flex-grow" title={t('anesthetic_effect')}>
-                <Input addonBefore={<SearchOutlined />} onChange={(e) => setSearch2(e.target.value)} />
-                <Table bordered scroll={{ x: 'auto' }} dataSource={tableData2} className='mt-4'>
+            <TitleCard className="flex-grow" title={"PK Simulation"}>
+                <Input addonBefore={<SearchOutlined />} onChange={(e) => setSearch1(e.target.value)} />
+                <Table bordered scroll={{ x: 'auto' }} dataSource={tableData1} className='mt-4'>
                     <Column title={t('datetime')} dataIndex="datetime" key="datetime" />
                     <Column title={t('name')} dataIndex="name" key="name" />
                     <Column title={``} dataIndex="action" key="action" />
