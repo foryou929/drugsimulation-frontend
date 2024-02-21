@@ -882,36 +882,41 @@ const Anesthetic = () => {
                     </Table>
                 </TitleCard> */}
                 <TitleCard className="w-full" title={"Anesthetic Effect (Chart)"}>
-                    <Line ref={chartRef} data={chartData} options={{
-                        responsive: true,
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
-                                }
-                            },
-                        },
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Remifentanil (ng/mL)',
-                                    font: {
-                                        weight: 'bold',
+                    <Line
+                        ref={chartRef}
+                        data={chartData}
+                        className="h-96 md:h-auto"
+                        options={{
+                            maintainAspectRatio: false,
+                            responsive: true,
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
                                     }
                                 },
                             },
-                            y: {
-                                title: {
-                                    display: true,
-                                    text: `${label2[hypnotics]} (${unit2[hypnotics]})`,
-                                    font: {
-                                        weight: 'bold',
-                                    }
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Remifentanil (ng/mL)',
+                                        font: {
+                                            weight: 'bold',
+                                        }
+                                    },
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: `${label2[hypnotics]} (${unit2[hypnotics]})`,
+                                        font: {
+                                            weight: 'bold',
+                                        }
+                                    },
                                 },
                             },
-                        },
-                    }} />
+                        }} />
                 </TitleCard>
             </div>
         </>
