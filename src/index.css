@@ -70,11 +70,11 @@
 .bg-img-login {
   background-image: url("../public/assets/img/login.jpg");
   background-size: 150% 100%;
-  border-radius: 16px;
+  border-radius: 4px;
 }
 
 .bg-img-register {
   background-image: url("../public/assets/img/register.jpg");
   background-size: 150% 100%;
-  border-radius: 16px;
+  border-radius: 4px;
 }
