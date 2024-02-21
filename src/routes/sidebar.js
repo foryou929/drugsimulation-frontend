@@ -24,55 +24,34 @@ const submenuIconClasses = `h-5 w-5`
 
 const routes = [
   {
+    path: '/app/AES', //url
+    icon: <UserIcon className={submenuIconClasses} />, // icon component
+    name: 'Anesthetic Effect', // name that appear in Sidebar
+  },
+  {
+    path: '/app/PKS',
+    icon: <UserIcon className={submenuIconClasses} />,
+    name: 'PK Simulation',
+  },
+  {
+    path: '/app/simulation',
+    icon: <DocumentIcon className={submenuIconClasses} />,
+    name: 'result'
+  },
+  {
     path: '/app/calendar', // url
     icon: <CalendarDaysIcon className={iconClasses} />, // icon component
     name: 'calendar', // name that appear in Sidebar
   },
   {
-    path: '', //no url needed as this has submenu
-    icon: <DocumentDuplicateIcon className={`${iconClasses} inline`} />, // icon component
-    name: 'PKS_AES', // name that appear in Sidebar
-    submenu: [
-      {
-        path: '/app/simulation',
-        icon: <DocumentIcon className={submenuIconClasses} />,
-        name: 'result'
-      },
-      {
-        path: '/app/PKS',
-        icon: <UserIcon className={submenuIconClasses} />,
-        name: 'pharmacokinetic',
-      },
-      {
-        path: '/app/AES', //url
-        icon: <UserIcon className={submenuIconClasses} />, // icon component
-        name: 'anesthetic_effect', // name that appear in Sidebar
-      },
-    ]
+    path: '/app/payment/stripe',
+    icon: <CurrencyDollarIcon className={submenuIconClasses} />,
+    name: 'payment'
   },
   {
-    path: '',
-    icon: <CurrencyDollarIcon className={`${iconClasses} inline`} />,
-    name: 'payment',
-    submenu: [
-      {
-        path: '/app/payment/stripe',
-        icon: <CurrencyDollarIcon className={submenuIconClasses} />,
-        name: 'stripe'
-      }
-    ]
-  },
-  {
-    path: '', //no url needed as this has submenu
-    icon: <Cog6ToothIcon className={`${iconClasses} inline`} />, // icon component
+    path: '/app/settings-profile', //url
+    icon: <UserIcon className={submenuIconClasses} />, // icon component
     name: 'settings', // name that appear in Sidebar
-    submenu: [
-      {
-        path: '/app/settings-profile', //url
-        icon: <UserIcon className={submenuIconClasses} />, // icon component
-        name: 'profile_setting', // name that appear in Sidebar
-      },
-    ]
   },
 ]
 
