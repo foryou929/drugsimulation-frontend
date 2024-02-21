@@ -885,8 +885,12 @@ const Anesthetic = () => {
                     <Line
                         ref={chartRef}
                         data={chartData}
-                        className="h-96 md:h-auto"
+                        className="h-64 md:h-auto"
                         options={{
+                            y: {
+                                beginAtZero: true,
+                                max: value1 * 1.5,
+                            },
                             maintainAspectRatio: false,
                             responsive: true,
                             plugins: {
