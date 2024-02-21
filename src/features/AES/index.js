@@ -735,72 +735,72 @@ const Anesthetic = () => {
                 <div className="w-full md:w-1/2 pl-0 md:pl-2">
                     <TitleCard title={"Agent"}>
                         <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/6 text-[12px]">Dose(RF):</p>
+                            <p className="w-1/5 text-[12px]">Dose(RF):</p>
                             <InputNumber
-                                className="w-5/6"
+                                className="w-4/5"
                                 suffix={'μg/kg/min'}
                                 value={Dose_RF}
                                 onChange={(v) => set_Dose_RF(v)}
                             />
                         </div>
                         <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/6 text-[12px]">Hypnotics:</p>
+                            <p className="w-1/5 text-[12px]">Hypnotics:</p>
                             <Select
-                                className="w-5/6"
+                                className="w-4/5"
                                 value={hypnotics}
                                 options={Hypnotics_Options}
                                 onChange={setHypnotics}
                             />
                         </div>
                         <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/6 text-[12px]">{label1[hypnotics]}:</p>
+                            <p className="w-1/5 text-[12px]">{label1[hypnotics]}:</p>
                             <InputNumber
-                                className="w-5/6"
+                                className="w-4/5"
                                 suffix={unit1[hypnotics]}
                                 value={value1}
                                 onChange={(v) => setValue1(v)}
                             />
                         </div>
                         <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/6 text-[12px]">{label2[hypnotics]}:</p>
+                            <p className="w-1/5 text-[12px]">{label2[hypnotics]}:</p>
                             <Input
-                                className="w-5/6"
+                                className="w-4/5 border-none"
                                 suffix={unit2[hypnotics]}
                                 value={Number(value2).toFixed(2)}
                                 readOnly
                             />
                         </div>
                         <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/6 text-[12px]">ECS(RF):</p>
+                            <p className="w-1/5 text-[12px]">ECS(RF):</p>
                             <Input
-                                className="w-5/6"
+                                className="w-4/5 border-none"
                                 suffix={'μg/mL'}
                                 value={ECS_RF.toFixed(2)}
                                 readOnly
                             />
                         </div>
                         <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/6 text-[12px]">ECS(RZ):</p>
+                            <p className="w-1/5 text-[12px]">ECS(RZ):</p>
                             <Input
-                                className="w-5/6"
+                                className="w-4/5 border-none"
                                 suffix={'μg/mL'}
                                 value={ECS_RZ.toFixed(2)}
                                 readOnly
                             />
                         </div>
                         <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/6 text-[12px]">P<sub>Awake</sub>:</p>
+                            <p className="w-1/5 text-[12px]">P<sub>Awake</sub>:</p>
                             <Input
-                                className="w-5/6"
+                                className="w-4/5 border-none"
                                 suffix={'%'}
                                 value={(P_Awake * 100.0).toFixed(2)}
                                 readOnly
                             />
                         </div>
                         <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/6 text-[12px]">P<sub>CVR</sub>:</p>
+                            <p className="w-1/5 text-[12px]">P<sub>CVR</sub>:</p>
                             <Input
-                                className="w-5/6"
+                                className="w-4/5 border-none"
                                 suffix={'%'}
                                 value={(P_CVR * 100.0).toFixed(2)}
                                 readOnly
@@ -882,36 +882,49 @@ const Anesthetic = () => {
                     </Table>
                 </TitleCard> */}
                 <TitleCard className="w-full" title={"Anesthetic Effect (Chart)"}>
-                    <Line ref={chartRef} data={chartData} options={{
-                        responsive: true,
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
-                                }
-                            },
-                        },
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Remifentanil (ng/mL)',
-                                    font: {
-                                        weight: 'bold',
-                                    }
-                                },
-                            },
+                    <Line
+                        ref={chartRef}
+                        data={chartData}
+                        className="h-64 md:h-auto"
+                        options={{
                             y: {
-                                title: {
-                                    display: true,
-                                    text: `${label2[hypnotics]} (${unit2[hypnotics]})`,
-                                    font: {
-                                        weight: 'bold',
+                                beginAtZero: true,
+                                max: value1 * 1.5,
+                            },
+                            x: {
+                                beginAtZero: true,
+                                max: (ECS_RF * 1.5) * 5,
+                            },
+                            maintainAspectRatio: false,
+                            responsive: true,
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
                                     }
                                 },
                             },
-                        },
-                    }} />
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Remifentanil (ng/mL)',
+                                        font: {
+                                            weight: 'bold',
+                                        }
+                                    },
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: `${label2[hypnotics]} (${unit2[hypnotics]})`,
+                                        font: {
+                                            weight: 'bold',
+                                        }
+                                    },
+                                },
+                            },
+                        }} />
                 </TitleCard>
             </div>
         </>
