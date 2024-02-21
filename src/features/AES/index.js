@@ -764,7 +764,7 @@ const Anesthetic = () => {
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">{label2[hypnotics]}:</p>
                             <Input
-                                className="w-5/6"
+                                className="w-5/6 border-none"
                                 suffix={unit2[hypnotics]}
                                 value={Number(value2).toFixed(2)}
                                 readOnly
@@ -773,7 +773,7 @@ const Anesthetic = () => {
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">ECS(RF):</p>
                             <Input
-                                className="w-5/6"
+                                className="w-5/6 border-none"
                                 suffix={'μg/mL'}
                                 value={ECS_RF.toFixed(2)}
                                 readOnly
@@ -782,7 +782,7 @@ const Anesthetic = () => {
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">ECS(RZ):</p>
                             <Input
-                                className="w-5/6"
+                                className="w-5/6 border-none"
                                 suffix={'μg/mL'}
                                 value={ECS_RZ.toFixed(2)}
                                 readOnly
@@ -791,7 +791,7 @@ const Anesthetic = () => {
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">P<sub>Awake</sub>:</p>
                             <Input
-                                className="w-5/6"
+                                className="w-5/6 border-none"
                                 suffix={'%'}
                                 value={(P_Awake * 100.0).toFixed(2)}
                                 readOnly
@@ -800,7 +800,7 @@ const Anesthetic = () => {
                         <div className="flex w-full mt-4 items-center">
                             <p className="w-1/6 text-[12px]">P<sub>CVR</sub>:</p>
                             <Input
-                                className="w-5/6"
+                                className="w-5/6 border-none"
                                 suffix={'%'}
                                 value={(P_CVR * 100.0).toFixed(2)}
                                 readOnly
