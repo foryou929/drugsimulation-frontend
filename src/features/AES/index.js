@@ -891,6 +891,10 @@ const Anesthetic = () => {
                                 beginAtZero: true,
                                 max: value1 * 1.5,
                             },
+                            x: {
+                                beginAtZero: true,
+                                max: (ECS_RF * 1.5) * 5,
+                            },
                             maintainAspectRatio: false,
                             responsive: true,
                             plugins: {
