@@ -491,6 +491,14 @@ const Anesthetic = () => {
                 ), 8.06],
                 datasets: [
                     {
+                        label: 'Anesthetic Effect',
+                        data: [[ECS_RF.toFixed(2), Number(value2).toFixed(2)]],
+                        borderColor: '#F00',
+                        backgroundColor: '#F008',
+                        pointBorderColor: '#F00',
+                        pointBackgroundColor: '#F00C',
+                    },
+                    {
                         label: `TOL90`,
                         data: tableData.map(v => [v.Copioid, v.V_TOL90]),
                         borderColor: 'rgb(128, 128, 128)',
@@ -521,14 +529,6 @@ const Anesthetic = () => {
                         backgroundColor: 'rgb(255, 99, 132, 0.5)',
                         pointBackgroundColor: 'transparent',
                         pointBorderColor: 'transparent',
-                    },
-                    {
-                        label: 'Anesthetic Effect',
-                        data: [[ECS_RF.toFixed(2), Number(value2).toFixed(2)]],
-                        borderColor: '#F00',
-                        backgroundColor: '#F008',
-                        pointBorderColor: '#F00',
-                        pointBackgroundColor: '#F008',
                     },
                 ],
             }
