@@ -491,6 +491,14 @@ const Anesthetic = () => {
                 ), 8.06],
                 datasets: [
                     {
+                        label: 'Anesthetic Effect',
+                        data: [[ECS_RF.toFixed(2), Number(value2).toFixed(2)]],
+                        borderColor: '#F00',
+                        backgroundColor: '#F008',
+                        pointBorderColor: '#F00',
+                        pointBackgroundColor: '#F00C',
+                    },
+                    {
                         label: `TOL90`,
                         data: tableData.map(v => [v.Copioid, v.V_TOL90]),
                         borderColor: 'rgb(128, 128, 128)',
@@ -521,14 +529,6 @@ const Anesthetic = () => {
                         backgroundColor: 'rgb(255, 99, 132, 0.5)',
                         pointBackgroundColor: 'transparent',
                         pointBorderColor: 'transparent',
-                    },
-                    {
-                        label: 'Anesthetic Effect',
-                        data: [[ECS_RF.toFixed(2), Number(value2).toFixed(2)]],
-                        borderColor: '#F00',
-                        backgroundColor: '#F008',
-                        pointBorderColor: '#F00',
-                        pointBackgroundColor: '#F008',
                     },
                 ],
             }
@@ -885,18 +885,18 @@ const Anesthetic = () => {
                     <Line
                         ref={chartRef}
                         data={chartData}
-                        className="h-80"
+                        className="h-80 md:h-96"
                         options={{
+                            responsive: true,
+                            maintainAspectRatio: false,
                             y: {
-                                beginAtZero: true,
+                                min: 0,
                                 max: value1 * 1.5,
                             },
                             x: {
-                                beginAtZero: true,
+                                min: 0,
                                 max: (ECS_RF * 1.5) * 5,
                             },
-                            maintainAspectRatio: false,
-                            responsive: true,
                             plugins: {
                                 tooltip: {
                                     callbacks: {
