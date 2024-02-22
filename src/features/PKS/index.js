@@ -39,6 +39,15 @@ export const options = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
+        x: {
+            title: {
+                display: true,
+                text: 'Simulation duration (min)',
+                font: {
+                    weight: 'bold',
+                }
+            },
+        },
         y1: {
             type: 'linear',
             display: true,
