@@ -37,6 +37,7 @@ ChartJS.register(
 
 export const options = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
         y1: {
             type: 'linear',
@@ -742,7 +743,7 @@ const Pharmacokinetic = () => {
             </div>
             <div className="flex flex-wrap items-start">
                 <TitleCard className="w-full" title={"Dose and Effect site concentration (Chart)"}>
-                    <Line data={chartData} options={options} ref={chartRef} />
+                    <Line className="h-80 md:h-96" data={chartData} options={options} ref={chartRef} />
                 </TitleCard>
                 <TitleCard className="w-full" title={"Dose and Effect site concentration (Table)"}>
                     <Table dataSource={tableData} bordered scroll={{ x: 'auto' }}>
