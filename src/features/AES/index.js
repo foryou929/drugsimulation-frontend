@@ -670,6 +670,8 @@ const Anesthetic = () => {
         saveAs(new Blob([excelBuffer]), `${name}.xlsx`);
     };
 
+    const firstInputRef = useRef(null);
+
     return (
         <>
             <div className="flex flex-wrap">
@@ -740,6 +742,7 @@ const Anesthetic = () => {
                                 className="w-4/5"
                                 suffix={'μg/kg/min'}
                                 value={Dose_RF}
+                                ref={firstInputRef}
                                 onChange={(v) => set_Dose_RF(v)}
                             />
                         </div>
@@ -759,6 +762,12 @@ const Anesthetic = () => {
                                 suffix={unit1[hypnotics]}
                                 value={value1}
                                 onChange={(v) => setValue1(v)}
+                                onKeyDown={(e) => {
+                                    if (e.key == "Enter" || e.key == "Tab") {
+                                        e.preventDefault();
+                                        firstInputRef.current.focus();
+                                    }
+                                }}
                             />
                         </div>
                         <div className="flex w-full mt-4 items-center">
