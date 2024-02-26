@@ -28,38 +28,40 @@ const OperationPane = ({ operations, setOperations, startTime, unit, ...rest }) 
                 operations.map((operation, index) => {
                     return <div key={index} className="w-full flex flex-wrap gap-2 mt-4 items-center">
                         {
-                            index > 0 && <Select
-                                options={[
-                                    { value: 0, label: 'Continuous' },
-                                    { value: 1, label: 'Bolus' }
-                                ]}
-                                value={operation.mode}
-                                onChange={(v) => setMode(index, v)}
-                            />
+                            index > 0 && <div className="flex-grow flex gap-2">
+                                <Select
+                                    className="flex-grow"
+                                    options={[
+                                        { value: 0, label: 'Continuous' },
+                                        { value: 1, label: 'Bolus' }
+                                    ]}
+                                    value={operation.mode}
+                                    onChange={(v) => setMode(index, v)}
+                                />
+                                <InputNumber
+                                    className="flex-grow"
+                                    defaultValue={operation.time}
+                                    onChange={(time) => setTime(index, time)}
+                                    addonBefore={startTime.add(operation.time, 'minutes').format('hh:mm')}
+                                    suffix={'min'}
+                                />
+                            </div>
                         }
-                        {
-                            index > 0 &&
+                        <div className="flex-grow flex gap-2">
                             <InputNumber
-                                className="w-40"
-                                defaultValue={operation.time}
-                                onChange={(time) => setTime(index, time)}
-                                addonBefore={startTime.add(operation.time, 'minutes').format('hh:mm')}
-                                suffix={'min'}
+                                className="flex-grow"
+                                defaultValue={operation.value}
+                                onChange={(value) => setValue(index, value)}
+                                addonBefore={index == 0 && "Initial"}
+                                suffix={unit[operation.mode]}
+                                value={operation.value}
                             />
-                        }
-                        <InputNumber
-                            className="flex-grow"
-                            defaultValue={operation.value}
-                            onChange={(value) => setValue(index, value)}
-                            addonBefore={index == 0 && "Initial"}
-                            suffix={unit[operation.mode]}
-                            value={operation.value}
-                        />
-                        {
-                            index > 0 && <button className="flex-none" onClick={() => onRemove(index)}>
-                                <img className="w-4 h-4" src="/assets/img/remove.png" />
-                            </button>
-                        }
+                            {
+                                index > 0 && <button className="flex-none" onClick={() => onRemove(index)}>
+                                    <img className="w-4 h-4" src="/assets/img/remove.png" />
+                                </button>
+                            }
+                        </div>
                     </div>
                 })
             }
