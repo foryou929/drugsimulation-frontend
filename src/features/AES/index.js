@@ -900,11 +900,11 @@ const Anesthetic = () => {
                             maintainAspectRatio: false,
                             y: {
                                 min: 0,
-                                max: value1 * 1.5,
+                                max: Math.max(value1 * 1.5, 6),
                             },
                             x: {
                                 min: 0,
-                                max: (ECS_RF * 1.5) * 5,
+                                max: Math.max((ECS_RF * 1.5), 15) * 5,
                             },
                             plugins: {
                                 tooltip: {
