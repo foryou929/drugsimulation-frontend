@@ -259,9 +259,9 @@ const Anesthetic = () => {
         {
             TOSS: {
                 DES: 5.24,
-                SEV: 1.47,
-                Prop: 2.99,
-                RZ: 0.7,
+                SEV: 1.68,
+                Prop: 3.42,
+                RZ: 0.8,
             },
             TOL: {
                 DES: 0,
