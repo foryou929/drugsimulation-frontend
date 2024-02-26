@@ -718,8 +718,8 @@ const Pharmacokinetic = () => {
                             </div>
                         </div>
                         <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/6 text-[12px]">Simulation duration:</p>
-                            <div className="w-5/6 flex gap-4">
+                            <p className="w-1/3 text-[12px]">Simulation duration:</p>
+                            <div className="w-2/3 flex gap-4">
                                 <InputNumber
                                     className="w-1/2"
                                     min={2}
