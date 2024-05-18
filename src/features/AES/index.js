@@ -399,21 +399,21 @@ const Anesthetic = () => {
             const Ptol_pop = Math.pow(Chyp / C50_hypnotics.TOSS.Prop, gamma) / Math.pow(1 + (Chyp / C50_hypnotics.TOSS.Prop), gamma)
             const Ptol_ind_curve = Math.pow(Chyp / (C50_hypnotics.TOSS.Prop * Arousal_out.Prop), gamma) / Math.pow(1 + (Chyp / (C50_hypnotics.TOSS.Prop * Arousal_out.Prop)), gamma)
             const Prop_TOL90 = Math.pow(9 * Math.pow(C50_hypnotics.TOL.Prop, gamma), 1 / gamma) * IVA_Arousal_out
-            const Prop_TOL50 = Math.pow(5 * Math.pow(C50_hypnotics.TOL.Prop, gamma), 1 / gamma) * IVA_Arousal_out
+            const Prop_TOL50 = Math.pow(Math.pow(C50_hypnotics.TOL.Prop, gamma), 1 / gamma) * IVA_Arousal_out
             const Prop_TOSS90 = Math.pow(9 * Math.pow(C50_hypnotics.TOSS.Prop, gamma), 1 / gamma) * IVA_Arousal_out
-            const Prop_TOSS50 = Math.pow(5 * Math.pow(C50_hypnotics.TOSS.Prop, gamma), 1 / gamma) * IVA_Arousal_out
+            const Prop_TOSS50 = Math.pow(Math.pow(C50_hypnotics.TOSS.Prop, gamma), 1 / gamma) * IVA_Arousal_out
             const RZ_TOL90 = Math.pow(9 * Math.pow(C50_hypnotics.TOL.RZ, gamma), 1 / gamma) * IVA_Arousal_out
-            const RZ_TOL50 = Math.pow(5 * Math.pow(C50_hypnotics.TOL.RZ, gamma), 1 / gamma) * IVA_Arousal_out
+            const RZ_TOL50 = Math.pow(Math.pow(C50_hypnotics.TOL.RZ, gamma), 1 / gamma) * IVA_Arousal_out
             const RZ_TOSS90 = Math.pow(9 * Math.pow(C50_hypnotics.TOSS.RZ, gamma), 1 / gamma) * IVA_Arousal_out
-            const RZ_TOSS50 = Math.pow(5 * Math.pow(C50_hypnotics.TOSS.RZ, gamma), 1 / gamma) * IVA_Arousal_out
+            const RZ_TOSS50 = Math.pow(Math.pow(C50_hypnotics.TOSS.RZ, gamma), 1 / gamma) * IVA_Arousal_out
             const DES_TOL90 = Math.pow(9 * Math.pow(C50_hypnotics.TOL.DES, gamma), 1 / gamma) * VA_Arousal_out
-            const DES_TOL50 = Math.pow(5 * Math.pow(C50_hypnotics.TOL.DES, gamma), 1 / gamma) * VA_Arousal_out
+            const DES_TOL50 = Math.pow(Math.pow(C50_hypnotics.TOL.DES, gamma), 1 / gamma) * VA_Arousal_out
             const DES_TOSS90 = Math.pow(9 * Math.pow(C50_hypnotics.TOSS.DES, gamma), 1 / gamma) * VA_Arousal_out
-            const DES_TOSS50 = Math.pow(5 * Math.pow(C50_hypnotics.TOSS.DES, gamma), 1 / gamma) * IVA_Arousal_out
+            const DES_TOSS50 = Math.pow(Math.pow(C50_hypnotics.TOSS.DES, gamma), 1 / gamma) * IVA_Arousal_out
             const SEV_TOL90 = Math.pow(9 * Math.pow(C50_hypnotics.TOL.SEV, gamma), 1 / gamma) * VA_Arousal_out
-            const SEV_TOL50 = Math.pow(5 * Math.pow(C50_hypnotics.TOL.SEV, gamma), 1 / gamma) * VA_Arousal_out
+            const SEV_TOL50 = Math.pow(Math.pow(C50_hypnotics.TOL.SEV, gamma), 1 / gamma) * VA_Arousal_out
             const SEV_TOSS90 = Math.pow(9 * Math.pow(C50_hypnotics.TOSS.SEV, gamma), 1 / gamma) * VA_Arousal_out
-            const SEV_TOSS50 = Math.pow(5 * Math.pow(C50_hypnotics.TOSS.SEV, gamma), 1 / gamma) * VA_Arousal_out
+            const SEV_TOSS50 = Math.pow(Math.pow(C50_hypnotics.TOSS.SEV, gamma), 1 / gamma) * VA_Arousal_out
             let V_TOL90, V_TOL50, V_TOSS90, V_TOSS50
             switch (hypnotics) {
                 case 0:
