@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Radio, Select, Table, Slider, InputNumber, TimePicker, Input } from 'antd'
+import { Radio, Select, Table, Slider, InputNumber, TimePicker, Input, Switch } from 'antd'
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import { Line } from 'react-chartjs-2';
@@ -21,6 +21,7 @@ import {
 import query from "../../utils/query";
 import TitleCard from "../../components/Cards/TitleCard"
 import OperationPane from "./OperationPane"
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 
 const { Column, ColumnGroup } = Table;
 
@@ -53,6 +54,8 @@ const ASA_PS_Options = [
 
 const Pharmacokinetic = () => {
     const { t } = useTranslation();
+    //
+    const [isShowTable, setShowTable] = useState(true);
     // Main params
     const [HT, setHT] = useState(170)
     const [BW, setBW] = useState(70)
@@ -769,17 +772,27 @@ const Pharmacokinetic = () => {
                         },
                     }} ref={chartRef} />
                 </TitleCard>
-                <TitleCard className="w-full" title={"Dose and Effect site concentration (Table)"}>
-                    <Table dataSource={tableData} bordered scroll={{ x: 'auto' }}>
-                        <ColumnGroup title="Time">
-                            <Column title="[h:m]" dataIndex="A" key="A" />
-                            <Column title="[min]" dataIndex="B" key="B" />
-                        </ColumnGroup>
-                        <Column title={`Dose(${unit[0][hypnotics]})`} dataIndex="C" key="C" />
-                        <Column title={`ESC(${unit[1][hypnotics]})`} dataIndex="D" key="D" />
-                        <Column title={`Dose(${unit[2][opioid]})`} dataIndex="E" key="E" />
-                        <Column title={`ESC(${unit[3][opioid]})`} dataIndex="F" key="F" />
-                    </Table>
+                <TitleCard className="w-full" title={
+                    <div className="flex items-center justify-between">
+                        <p>Dose and Effect site concentration (Table)</p>
+                        <div className="cursor-pointer" onClick={() => setShowTable(!isShowTable)}>
+                            {isShowTable ? <EyeSlashIcon className="w-4 h-4" /> : <EyeIcon className="w-4 h-4" />}
+                        </div>
+                    </div>
+                }>
+                    {
+                        isShowTable &&
+                        <Table dataSource={tableData} bordered scroll={{ x: 'auto' }}>
+                            <ColumnGroup title="Time">
+                                <Column title="[h:m]" dataIndex="A" key="A" />
+                                <Column title="[min]" dataIndex="B" key="B" />
+                            </ColumnGroup>
+                            <Column title={`Dose(${unit[0][hypnotics]})`} dataIndex="C" key="C" />
+                            <Column title={`ESC(${unit[1][hypnotics]})`} dataIndex="D" key="D" />
+                            <Column title={`Dose(${unit[2][opioid]})`} dataIndex="E" key="E" />
+                            <Column title={`ESC(${unit[3][opioid]})`} dataIndex="F" key="F" />
+                        </Table>
+                    }
                 </TitleCard>
             </div>
         </>
