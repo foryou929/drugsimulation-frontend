@@ -908,6 +908,7 @@ const Anesthetic = () => {
                             },
                             plugins: {
                                 tooltip: {
+                                    intersect: false,
                                     callbacks: {
                                         label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
                                     }
