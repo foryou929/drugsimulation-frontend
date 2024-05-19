@@ -736,84 +736,70 @@ const Anesthetic = () => {
 
                 <div className="w-full md:w-1/2 pl-0 md:pl-2">
                     <TitleCard title={"Agent"}>
-                        <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/5 text-[12px]">Dose(RF):</p>
-                            <InputNumber
-                                className="w-4/5"
-                                suffix={'μg/kg/min'}
-                                value={Dose_RF}
-                                ref={firstInputRef}
-                                onChange={(v) => set_Dose_RF(v)}
-                            />
+                        <div className="p-4 border rounded">
+                            <div className="flex w-full mt-4 items-center">
+                                <p className="w-1/5 text-[12px]">Dose(RF):</p>
+                                <InputNumber
+                                    className="w-4/5"
+                                    suffix={'μg/kg/min'}
+                                    value={Dose_RF}
+                                    ref={firstInputRef}
+                                    onChange={(v) => set_Dose_RF(v)}
+                                />
+                            </div>
+                            <div className="flex w-full mt-4 items-center">
+                                <p className="w-1/5 text-[12px]">Hypnotics:</p>
+                                <Select
+                                    className="w-4/5"
+                                    value={hypnotics}
+                                    options={Hypnotics_Options}
+                                    onChange={setHypnotics}
+                                />
+                            </div>
+                            <div className="flex w-full mt-4 items-center">
+                                <p className="w-1/5 text-[12px]">{label1[hypnotics]}:</p>
+                                <InputNumber
+                                    className="w-4/5"
+                                    suffix={unit1[hypnotics]}
+                                    value={value1}
+                                    onChange={(v) => setValue1(v)}
+                                    onKeyDown={(e) => {
+                                        if (e.key == "Enter" || e.key == "Tab") {
+                                            e.preventDefault();
+                                            firstInputRef.current.focus();
+                                        }
+                                    }}
+                                />
+                            </div>
                         </div>
-                        <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/5 text-[12px]">Hypnotics:</p>
-                            <Select
-                                className="w-4/5"
-                                value={hypnotics}
-                                options={Hypnotics_Options}
-                                onChange={setHypnotics}
-                            />
-                        </div>
-                        <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/5 text-[12px]">{label1[hypnotics]}:</p>
-                            <InputNumber
-                                className="w-4/5"
-                                suffix={unit1[hypnotics]}
-                                value={value1}
-                                onChange={(v) => setValue1(v)}
-                                onKeyDown={(e) => {
-                                    if (e.key == "Enter" || e.key == "Tab") {
-                                        e.preventDefault();
-                                        firstInputRef.current.focus();
-                                    }
-                                }}
-                            />
-                        </div>
-                        <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/5 text-[12px]">{label2[hypnotics]}:</p>
-                            <Input
-                                className="w-4/5 border-none"
-                                suffix={unit2[hypnotics]}
-                                value={Number(value2).toFixed(2)}
-                                readOnly
-                            />
-                        </div>
-                        <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/5 text-[12px]">ECS(RF):</p>
-                            <Input
-                                className="w-4/5 border-none"
-                                suffix={'μg/mL'}
-                                value={ECS_RF.toFixed(2)}
-                                readOnly
-                            />
-                        </div>
-                        <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/5 text-[12px]">ECS(RZ):</p>
-                            <Input
-                                className="w-4/5 border-none"
-                                suffix={'μg/mL'}
-                                value={ECS_RZ.toFixed(2)}
-                                readOnly
-                            />
-                        </div>
-                        <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/5 text-[12px]">P<sub>Awake</sub>:</p>
-                            <Input
-                                className="w-4/5 border-none"
-                                suffix={'%'}
-                                value={(P_Awake * 100.0).toFixed(2)}
-                                readOnly
-                            />
-                        </div>
-                        <div className="flex w-full mt-4 items-center">
-                            <p className="w-1/5 text-[12px]">P<sub>CVR</sub>:</p>
-                            <Input
-                                className="w-4/5 border-none"
-                                suffix={'%'}
-                                value={(P_CVR * 100.0).toFixed(2)}
-                                readOnly
-                            />
+                        <div className="mt-4 p-4 border rounded">
+                            <div className="flex w-full items-center">
+                                <p className="w-1/5 text-[12px]">{label2[hypnotics]}:</p>
+                                <Input
+                                    className="w-4/5 border-none"
+                                    suffix={unit2[hypnotics]}
+                                    value={Number(value2).toFixed(2)}
+                                    readOnly
+                                />
+                            </div>
+                            <div className="flex w-full mt-4 items-center">
+                                <p className="w-1/5 text-[12px]">ECS(RF):</p>
+                                <Input
+                                    className="w-4/5 border-none"
+                                    suffix={'μg/mL'}
+                                    value={ECS_RF.toFixed(2)}
+                                    readOnly
+                                />
+                            </div>
+                            <div className="flex w-full mt-4 items-center">
+                                <p className="w-1/5 text-[12px]">ECS(RZ):</p>
+                                <Input
+                                    className="w-4/5 border-none"
+                                    suffix={'μg/mL'}
+                                    value={ECS_RZ.toFixed(2)}
+                                    readOnly
+                                />
+                            </div>
                         </div>
                     </TitleCard>
                 </div>
@@ -891,50 +877,57 @@ const Anesthetic = () => {
                     </Table>
                 </TitleCard> */}
                 <TitleCard className="w-full" title={"Anesthetic Effect (Chart)"}>
-                    <Line
-                        ref={chartRef}
-                        data={chartData}
-                        className="h-80 md:h-96"
-                        options={{
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            y: {
-                                min: 0,
-                                max: Math.max(value1 * 1.5, 6),
-                            },
-                            x: {
-                                min: 0,
-                                max: Math.max((ECS_RF * 1.5), 15) * 5,
-                            },
-                            plugins: {
-                                tooltip: {
-                                    intersect: false,
-                                    callbacks: {
-                                        label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
-                                    }
-                                },
-                            },
-                            scales: {
-                                x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Remifentanil (ng/mL)',
-                                        font: {
-                                            weight: 'bold',
-                                        }
-                                    },
-                                },
+                    <div className="relative">
+                        <div className="absolute top-12 right-8 z-50 bg-white rounded shadow-md p-4 shadow-[#0008]">
+                            <p className="flex items-center gap-[4px]"><span className="w-2 h-2 rounded-full bg-red-500" /><p>Anesthetic Effect</p></p>
+                            <p className="w-1/5 flex items-center whitespace-nowrap">P<sub>Awake</sub>: {`${(P_Awake * 100.0).toFixed(2)}%`}</p>
+                            <p className="w-1/5 flex items-center whitespace-nowrap">P<sub>CVR</sub>: {`${(P_CVR * 100.0).toFixed(2)}%`}</p>
+                        </div>
+                        <Line
+                            ref={chartRef}
+                            data={chartData}
+                            className="h-80 md:h-96"
+                            options={{
+                                responsive: true,
+                                maintainAspectRatio: false,
                                 y: {
-                                    title: {
-                                        display: true,
-                                        text: `${label2[hypnotics]} (${unit2[hypnotics]})`,
-                                        font: {
-                                            weight: 'bold',
+                                    min: 0,
+                                    max: Math.max(value1 * 1.5, 6),
+                                },
+                                x: {
+                                    min: 0,
+                                    max: Math.max((ECS_RF * 1.5), 15) * 5,
+                                },
+                                plugins: {
+                                    tooltip: {
+                                        intersect: false,
+                                        callbacks: {
+                                            label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
                                         }
                                     },
                                 },
-                            },
-                        }} />
+                                scales: {
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Remifentanil (ng/mL)',
+                                            font: {
+                                                weight: 'bold',
+                                            }
+                                        },
+                                    },
+                                    y: {
+                                        title: {
+                                            display: true,
+                                            text: `${label2[hypnotics]} (${unit2[hypnotics]})`,
+                                            font: {
+                                                weight: 'bold',
+                                            }
+                                        },
+                                    },
+                                },
+                            }} />
+                    </div>
                 </TitleCard>
             </div>
         </>
