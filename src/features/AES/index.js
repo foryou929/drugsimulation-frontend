@@ -902,7 +902,8 @@ const Anesthetic = () => {
                                     tooltip: {
                                         intersect: false,
                                         callbacks: {
-                                            label: (yDatapoint) => { return yDatapoint.formattedValue + unit2[hypnotics]; },
+                                            title: context => `RF: ${context[0].label} ng/mL`,
+                                            label: yDatapoint =>  `${label2[hypnotics]}: ${yDatapoint.formattedValue} ${unit2[hypnotics]}`,
                                         }
                                     },
                                 },
