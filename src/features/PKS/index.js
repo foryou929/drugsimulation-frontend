@@ -728,6 +728,14 @@ const Pharmacokinetic = () => {
                     <Line className="h-80 md:h-96" data={chartData} options={{
                         responsive: true,
                         maintainAspectRatio: false,
+                        plugins: {
+                            tooltip: {
+                                intersect: false,
+                                callbacks: {
+                                    title: context => `${context[0].label} min`
+                                }
+                            }
+                        },
                         scales: {
                             x: {
                                 title: {
