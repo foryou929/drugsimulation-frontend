@@ -35,33 +35,6 @@ ChartJS.register(
     Legend
 );
 
-export const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-        x: {
-            title: {
-                display: true,
-                text: 'Simulation duration (min)',
-                font: {
-                    weight: 'bold',
-                }
-            },
-        },
-        y1: {
-            type: 'linear',
-            display: true,
-            position: 'left',
-            min: 0
-        },
-        y2: {
-            type: 'linear',
-            display: true,
-            position: 'right',
-            min: 0
-        },
-    },
-};
 
 const format = 'HH:mm'
 
@@ -752,7 +725,41 @@ const Pharmacokinetic = () => {
             </div>
             <div className="flex flex-wrap items-start">
                 <TitleCard className="w-full" title={"Dose and Effect site concentration (Chart)"}>
-                    <Line className="h-80 md:h-96" data={chartData} options={options} ref={chartRef} />
+                    <Line className="h-80 md:h-96" data={chartData} options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Simulation duration (min)',
+                                    font: {
+                                        weight: 'bold',
+                                    }
+                                },
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                min: 0,
+                                title: {
+                                    display: true,
+                                    text: `${medicine[0][hypnotics]} [${unit[1][hypnotics]}]`,
+                                },
+                            },
+                            y2: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                min: 0,
+                                title: {
+                                    display: true,
+                                    text: `${medicine[1][opioid]} [${unit[3][opioid]}]`,
+                                }
+                            },
+                        },
+                    }} ref={chartRef} />
                 </TitleCard>
                 <TitleCard className="w-full" title={"Dose and Effect site concentration (Table)"}>
                     <Table dataSource={tableData} bordered scroll={{ x: 'auto' }}>
