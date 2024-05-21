@@ -876,59 +876,57 @@ const Anesthetic = () => {
                         </ColumnGroup>
                     </Table>
                 </TitleCard> */}
-                <TitleCard className="w-full" title={"Anesthetic Effect (Chart)"}>
-                    <div className="relative">
-                        <div className="absolute top-12 right-8 z-50 bg-white rounded shadow-md p-4 shadow-[#0008]">
-                            <p className="flex items-center gap-[4px]"><span className="w-2 h-2 rounded-full bg-red-500" /><p>Anesthetic Effect</p></p>
-                            <p className="w-1/5 flex items-center whitespace-nowrap">P<sub>Awake</sub>: {`${(P_Awake * 100.0).toFixed(2)}%`}</p>
-                            <p className="w-1/5 flex items-center whitespace-nowrap">P<sub>CVR</sub>: {`${(P_CVR * 100.0).toFixed(2)}%`}</p>
-                        </div>
-                        <Line
-                            ref={chartRef}
-                            data={chartData}
-                            className="h-80 md:h-96"
-                            options={{
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                y: {
-                                    min: 0,
-                                    max: Math.max(value1 * 1.5, 6),
+                <TitleCard className="w-full relative" title={"Anesthetic Effect (Chart)"}>
+                    <div className="absolute right-2 top-2 z-50 bg-white rounded shadow-sm p-2 shadow-[#0008] text-sm">
+                        <div className="flex items-center gap-[4px]"><span className="w-2 h-2 rounded-full bg-red-500" /><p>Anesthetic Effect</p></div>
+                        <p className="w-1/5 flex items-center whitespace-nowrap">P<sub>Awake</sub>: {`${(P_Awake * 100.0).toFixed(2)}%`}</p>
+                        <p className="w-1/5 flex items-center whitespace-nowrap">P<sub>CVR</sub>: {`${(P_CVR * 100.0).toFixed(2)}%`}</p>
+                    </div>
+                    <Line
+                        ref={chartRef}
+                        data={chartData}
+                        className="h-80 md:h-96"
+                        options={{
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            y: {
+                                min: 0,
+                                max: Math.max(value1 * 1.5, 6),
+                            },
+                            x: {
+                                min: 0,
+                                max: Math.max((ECS_RF * 1.5), 15) * 5,
+                            },
+                            plugins: {
+                                tooltip: {
+                                    intersect: false,
+                                    callbacks: {
+                                        title: context => `RF: ${context[0].label} ng/mL`,
+                                        label: yDatapoint => `${label2[hypnotics]}: ${yDatapoint.formattedValue} ${unit2[hypnotics]}`,
+                                    }
                                 },
+                            },
+                            scales: {
                                 x: {
-                                    min: 0,
-                                    max: Math.max((ECS_RF * 1.5), 15) * 5,
-                                },
-                                plugins: {
-                                    tooltip: {
-                                        intersect: false,
-                                        callbacks: {
-                                            title: context => `RF: ${context[0].label} ng/mL`,
-                                            label: yDatapoint =>  `${label2[hypnotics]}: ${yDatapoint.formattedValue} ${unit2[hypnotics]}`,
+                                    title: {
+                                        display: true,
+                                        text: 'Remifentanil (ng/mL)',
+                                        font: {
+                                            weight: 'bold',
                                         }
                                     },
                                 },
-                                scales: {
-                                    x: {
-                                        title: {
-                                            display: true,
-                                            text: 'Remifentanil (ng/mL)',
-                                            font: {
-                                                weight: 'bold',
-                                            }
-                                        },
-                                    },
-                                    y: {
-                                        title: {
-                                            display: true,
-                                            text: `${label2[hypnotics]} (${unit2[hypnotics]})`,
-                                            font: {
-                                                weight: 'bold',
-                                            }
-                                        },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: `${label2[hypnotics]} (${unit2[hypnotics]})`,
+                                        font: {
+                                            weight: 'bold',
+                                        }
                                     },
                                 },
-                            }} />
-                    </div>
+                            },
+                        }} />
                 </TitleCard>
             </div>
         </>
