@@ -772,16 +772,8 @@ const Pharmacokinetic = () => {
                         },
                     }} ref={chartRef} />
                 </TitleCard>
-                <TitleCard className="w-full" title={
-                    <div className="flex items-center justify-between">
-                        <p>Dose and Effect site concentration (Table)</p>
-                        <div className="cursor-pointer" onClick={() => setShowTable(!isShowTable)}>
-                            {isShowTable ? <EyeSlashIcon className="w-4 h-4" /> : <EyeIcon className="w-4 h-4" />}
-                        </div>
-                    </div>
-                }>
+                {/* <TitleCard className="w-full" title="Dose and Effect site concentration (Table)">
                     {
-                        isShowTable &&
                         <Table dataSource={tableData} bordered scroll={{ x: 'auto' }}>
                             <ColumnGroup title="Time">
                                 <Column title="[h:m]" dataIndex="A" key="A" />
@@ -793,7 +785,7 @@ const Pharmacokinetic = () => {
                             <Column title={`ESC(${unit[3][opioid]})`} dataIndex="F" key="F" />
                         </Table>
                     }
-                </TitleCard>
+                </TitleCard> */}
             </div>
         </>
     )
