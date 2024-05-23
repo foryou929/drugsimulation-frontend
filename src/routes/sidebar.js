@@ -20,22 +20,21 @@ import CurrencyDollarIcon from '@heroicons/react/24/outline/CurrencyDollarIcon'
 // import DocumentDuplicateIcon from '@heroicons/react/24/outline/DocumentDuplicateIcon'
 
 const iconClasses = `h-6 w-6`
-const submenuIconClasses = `h-5 w-5`
 
 const routes = [
   {
     path: '/app/AES', //url
-    icon: <UserIcon className={submenuIconClasses} />, // icon component
+    icon: <UserIcon className={iconClasses} />, // icon component
     name: 'Anesthetic Effect', // name that appear in Sidebar
   },
   {
     path: '/app/PKS',
-    icon: <UserIcon className={submenuIconClasses} />,
+    icon: <UserIcon className={iconClasses} />,
     name: 'PK Simulation',
   },
   {
     path: '/app/simulation',
-    icon: <DocumentIcon className={submenuIconClasses} />,
+    icon: <DocumentIcon className={iconClasses} />,
     name: 'result'
   },
   {
@@ -45,14 +44,19 @@ const routes = [
   },
   {
     path: '/app/payment/stripe',
-    icon: <CurrencyDollarIcon className={submenuIconClasses} />,
+    icon: <CurrencyDollarIcon className={iconClasses} />,
     name: 'payment'
   },
   {
     path: '/app/settings-profile', //url
-    icon: <UserIcon className={submenuIconClasses} />, // icon component
+    icon: <UserIcon className={iconClasses} />, // icon component
     name: 'settings', // name that appear in Sidebar
   },
+  {
+    path: '/app/administrator', // url
+    icon: <Cog6ToothIcon className={iconClasses} />,
+    name: 'administrator'
+  }
 ]
 
 export default routes
