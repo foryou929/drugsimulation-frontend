@@ -20,6 +20,7 @@ import {
 import query from "../../utils/query";
 import { Line } from 'react-chartjs-2';
 import TitleCard from "../../components/Cards/TitleCard"
+import { useSelector } from "react-redux";
 
 // const { Column, ColumnGroup } = Table;
 
@@ -55,6 +56,7 @@ const Hypnotics_Options = [
 ]
 
 const Anesthetic = () => {
+    const { user } = useSelector(state => state.user);
     const { t } = useTranslation();
     // Main params
     const [HT, setHT] = useState(170)
@@ -681,8 +683,12 @@ const Anesthetic = () => {
                             <p className="w-1/6 text-[12px]">{t('name')}:</p>
                             <div className="w-5/6 flex gap-2">
                                 <Input className="flex-grow" onChange={(e) => setName(e.target.value)} value={name} />
-                                <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onSave}>{t('save')}</button>
-                                <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onDownload}>{t('download')}</button>
+                                {user.current_pricing_plan == 2 && (
+                                    <>
+                                        <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onSave}>{t('save')}</button>
+                                        <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onDownload}>{t('download')}</button>
+                                    </>
+                                )}
                             </div>
                         </div>
                         <div className="flex w-full mt-4 items-center">
