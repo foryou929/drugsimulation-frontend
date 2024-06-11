@@ -1,13 +1,19 @@
-import routes from '../routes/sidebar'
-import { NavLink, Routes, Link, useLocation } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import SidebarSubmenu from './SidebarSubmenu';
-import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
+import { useSelector } from 'react-redux';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+
 import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
+
+import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon';
+
+import { routes, adminRoutes } from '../routes/sidebar';
+import SidebarSubmenu from './SidebarSubmenu';
 
 function LeftSidebar() {
     const location = useLocation();
     const { t } = useTranslation()
+
+    const { user } = useSelector(state => state.user);
 
     const close = (e) => {
         document.getElementById('left-sidebar-drawer').click()
@@ -25,7 +31,7 @@ function LeftSidebar() {
 
                     <Link to={'/app/calendar'}><img className="mask mask-squircle w-10" src="/logo.png" alt="DashWind Logo" />{t('app_title')}</Link> </li>
                 {
-                    routes.map((route, k) => {
+                    [...routes, ...(user?.isAdmin ? adminRoutes : [])].map((route, k) => {
                         return (
                             <li className="" key={k}>
                                 {

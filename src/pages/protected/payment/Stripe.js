@@ -10,36 +10,41 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
 import CheckoutForm from '../../../features/Payment/Stripe/CheckOutForm'
+import PriceCard from '../../../features/Payment/PriceCard'
 
 const stripePromise = loadStripe(`${process.env.REACT_APP_PUBLISHABLE_KEY}`);
 
 const StripePaymentPage = () => {
     const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(setPageTitle({ title: "payment" }))
-    }, []);
-
-    const { user } = useSelector(state => state.user);
+    const [pricingPlans, setPricingPlans] = useState([]);
+    const [currentId, setCurrentId] = useState(null);
 
     const { t } = useTranslation();
 
     const [client_secret, setClientSecret] = useState(null)
 
     useEffect(() => {
-        query.post(
-            '/payment/stripe',
-            { amount: process.env.REACT_APP_PAY_AMOUNT },
-            (res) => {
-                setClientSecret(res.client_secret)
-            }
-        );
-    }, [])
+        dispatch(setPageTitle({ title: "payment" }))
+        query.get('/pricing_plan', (pricingPlans) => {
+            setPricingPlans(pricingPlans);
+        });
+        if (currentId) {
+            query.post(
+                '/payment/stripe',
+                { amount: pricingPlans.filter(pricingPlan => pricingPlan.id == currentId)[0].price },
+                (res) => {
+                    setClientSecret(res.client_secret)
+                }
+            );
+        }
+    }, [currentId])
+
+    const { user } = useSelector(state => state.user);
 
     const lang = localStorage.getItem('lang');
     const theme = localStorage.getItem('theme');
 
-    if (user?.paid || user?.isAdmin) {
+    if (user?.isAdmin) {
         return (
             <div className='flex justify-center'>
                 <div className='w-[640px]'>
@@ -51,14 +56,20 @@ const StripePaymentPage = () => {
                 </div>
             </div>
         )
-    } else {
+    }
 
-        return (
-            <div className='flex justify-center'>
-                <div className='w-[640px]'>
-                    <TitleCard title='Stripe'>
+    return (
+        <div className='flex justify-center'>
+            <div className='w-[640px]'>
+                <TitleCard>
+                    <div className='grid grid-cols-1 lg:grid-cols-2 gap-2'>
                         {
-                            client_secret && (
+                            pricingPlans.map(pricingPlan => <PriceCard key={pricingPlan.id} id={pricingPlan.id} price={pricingPlan.price} description={pricingPlan.description} currentId={currentId} onClick={() => setCurrentId(pricingPlan.id)} />)
+                        }
+                    </div>
+                    {
+                        (client_secret && currentId != user?.current_pricing_plan) && (
+                            <div key={client_secret} className='mt-4'>
                                 <Elements stripe={stripePromise} options={
                                     {
                                         clientSecret: client_secret,
@@ -68,15 +79,15 @@ const StripePaymentPage = () => {
                                         }
                                     }
                                 }>
-                                    <CheckoutForm />
+                                    <CheckoutForm currentId={currentId} />
                                 </Elements>
-                            )
-                        }
-                    </TitleCard>
-                </div>
+                            </div>
+                        )
+                    }
+                </TitleCard>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default StripePaymentPage

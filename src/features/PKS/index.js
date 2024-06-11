@@ -22,6 +22,7 @@ import query from "../../utils/query";
 import TitleCard from "../../components/Cards/TitleCard"
 import OperationPane from "./OperationPane"
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
+import { useSelector } from "react-redux";
 
 const { Column, ColumnGroup } = Table;
 
@@ -53,6 +54,7 @@ const ASA_PS_Options = [
 ]
 
 const Pharmacokinetic = () => {
+    const { user } = useSelector(state => state.user);
     const { t } = useTranslation();
     //
     const [isShowTable, setShowTable] = useState(true);
@@ -606,8 +608,12 @@ const Pharmacokinetic = () => {
                             <p className="w-1/6 text-[12px]">{t('name')}:</p>
                             <div className="w-5/6 flex gap-2">
                                 <Input className="flex-grow" onChange={(e) => setName(e.target.value)} value={name} />
-                                <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onSave}>{t('save')}</button>
-                                <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onDownload}>{t('download')}</button>
+                                {user.current_pricing_plan == 2 && (
+                                    <>
+                                        <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onSave}>{t('save')}</button>
+                                        <button className={`btn btn-primary btn-sm flex-none ${name.length == 0 && 'btn-disabled'}`} onClick={onDownload}>{t('download')}</button>
+                                    </>
+                                )}
                             </div>
                         </div>
                         <div className="flex w-full mt-4 items-center">
@@ -772,16 +778,8 @@ const Pharmacokinetic = () => {
                         },
                     }} ref={chartRef} />
                 </TitleCard>
-                <TitleCard className="w-full" title={
-                    <div className="flex items-center justify-between">
-                        <p>Dose and Effect site concentration (Table)</p>
-                        <div className="cursor-pointer" onClick={() => setShowTable(!isShowTable)}>
-                            {isShowTable ? <EyeSlashIcon className="w-4 h-4" /> : <EyeIcon className="w-4 h-4" />}
-                        </div>
-                    </div>
-                }>
+                {/* <TitleCard className="w-full" title="Dose and Effect site concentration (Table)">
                     {
-                        isShowTable &&
                         <Table dataSource={tableData} bordered scroll={{ x: 'auto' }}>
                             <ColumnGroup title="Time">
                                 <Column title="[h:m]" dataIndex="A" key="A" />
@@ -793,7 +791,7 @@ const Pharmacokinetic = () => {
                             <Column title={`ESC(${unit[3][opioid]})`} dataIndex="F" key="F" />
                         </Table>
                     }
-                </TitleCard>
+                </TitleCard> */}
             </div>
         </>
     )

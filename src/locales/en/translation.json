@@ -75,5 +75,7 @@
     "simulation_save_success": "Simulation data has been saved successfully.",
     "simulation_delete_success": "Simulation data has been deleted successfully.",
     "result": "Result",
-    "download": "Download"
+    "download": "Download",
+    "pricing_plan_simulate": "Simulation",
+    "pricing_plan_save": "Simulation data save & download"
 }
