@@ -941,6 +941,13 @@ const Anesthetic = () => {
                                     x: {
                                         min: 0,
                                         max: Math.max((ECS_RF * 1.5), 15) * 5,
+                                        title: {
+                                            display: true,
+                                            text: 'Remifentanil (ng/mL)',
+                                            font: {
+                                                weight: 'bold',
+                                            }
+                                        },
                                     },
                                     y: {
                                         title: {
@@ -961,13 +968,6 @@ const Anesthetic = () => {
                                         callbacks: {
                                             title: context => `RF: ${context[0].label} ng/mL`,
                                             label: yDatapoint => `${label2[hypnotics]}: ${yDatapoint.formattedValue} ${unit2[hypnotics]}`,
-                                        }
-                                    },
-                                    title: {
-                                        display: true,
-                                        text: 'Remifentanil (ng/mL)',
-                                        font: {
-                                            weight: 'bold',
                                         }
                                     },
                                 },
