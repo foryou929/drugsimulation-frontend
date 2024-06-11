@@ -877,12 +877,36 @@ const Anesthetic = () => {
                     </Table>
                 </TitleCard> */}
                 <TitleCard className="w-full" title={"Anesthetic Effect (Chart)"}>
-                    <div className="relative">
-                        <div className="absolute top-12 right-8 z-50 bg-white rounded shadow-md p-4 shadow-[#0008]">
-                            <p className="flex items-center gap-[4px]"><span className="w-2 h-2 rounded-full bg-red-500" /><p>Anesthetic Effect</p></p>
-                            <p className="w-1/5 flex items-center whitespace-nowrap">P<sub>Awake</sub>: {`${(P_Awake * 100.0).toFixed(2)}%`}</p>
-                            <p className="w-1/5 flex items-center whitespace-nowrap">P<sub>CVR</sub>: {`${(P_CVR * 100.0).toFixed(2)}%`}</p>
+                    <div className="flex lg:px-16 gap-4 lg:gap-8 items-center">
+                        <div className="flex-none grid grid-cols-2 lg:grid-cols-4 gap-2">
+                            <div className="flex items-center gap-2">
+                                <span className="inline-block w-9 h-3 border-2 border-gray-500 bg-gray-500 bg-opacity-50"></span>
+                                <span className="text-sm">TOL90</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="inline-block w-9 h-3 border-2 border-yellow-500 bg-yellow-500 bg-opacity-50"></span>
+                                <span className="text-sm">TOL50</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="inline-block w-9 h-3 border-2 border-blue-500 bg-blue-500 bg-opacity-50"></span>
+                                <span className="text-sm">TOSS90</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="inline-block w-9 h-3 border-2 border-red-500 bg-red-500 bg-opacity-50"></span>
+                                <span className="text-sm">TOSS50</span>
+                            </div>
                         </div>
+                        <div className="flex-grow">
+                            <p className="flex items-center gap-[4px]"><span className="w-2 h-2 rounded-full bg-red-500" />
+                                Anesthetic Effect
+                            </p>
+                            <div className="lg:flex lg:gap-4">
+                                <p className="flex items-center whitespace-nowrap">P<sub>Awake</sub>: {`${(P_Awake * 100.0).toFixed(2)}%`}</p>
+                                <p className="flex items-center whitespace-nowrap">P<sub>CVR</sub>: {`${(P_CVR * 100.0).toFixed(2)}%`}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
                         <Line
                             ref={chartRef}
                             data={chartData}
@@ -899,11 +923,14 @@ const Anesthetic = () => {
                                     max: Math.max((ECS_RF * 1.5), 15) * 5,
                                 },
                                 plugins: {
+                                    legend: {
+                                        display: false,
+                                    },
                                     tooltip: {
                                         intersect: false,
                                         callbacks: {
                                             title: context => `RF: ${context[0].label} ng/mL`,
-                                            label: yDatapoint =>  `${label2[hypnotics]}: ${yDatapoint.formattedValue} ${unit2[hypnotics]}`,
+                                            label: yDatapoint => `${label2[hypnotics]}: ${yDatapoint.formattedValue} ${unit2[hypnotics]}`,
                                         }
                                     },
                                 },
