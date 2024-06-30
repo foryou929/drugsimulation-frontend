@@ -77,5 +77,6 @@
     "result": "Result",
     "download": "Download",
     "pricing_plan_simulate": "Simulation",
-    "pricing_plan_save": "Simulation data save & download"
+    "pricing_plan_save": "Simulation data save & download",
+    "product_description": "Product description"
 }

@@ -77,5 +77,6 @@
     "result": "結果",
     "download": "ダウンロード",
     "pricing_plan_simulate": "シミュレーション",
-    "pricing_plan_save": "シミュレーションデータの保存とダウンロード"
+    "pricing_plan_save": "シミュレーションデータの保存とダウンロード",
+    "product_description": "製品説明"
 }
