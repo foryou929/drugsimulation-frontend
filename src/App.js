@@ -1,21 +1,22 @@
-import React, { lazy, useEffect, useState } from 'react'
-import './App.css';
-import 'react-notifications/lib/notifications.css';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
-import { themeChange } from 'theme-change'
-import query from './utils/query';
-import checkAuth from './app/auth';
-import initializeApp from './app/init';
-
+import i18n from "i18next";
+import React, { lazy, useEffect } from 'react';
+import { initReactI18next } from "react-i18next";
 import { NotificationContainer } from 'react-notifications';
 import { useDispatch } from 'react-redux';
-import { login } from './features/common/userSlice'
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { themeChange } from 'theme-change';
 
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import checkAuth from './app/auth';
+import initializeApp from './app/init';
+import query from './utils/query';
+
+import { login } from './features/common/userSlice';
 
 import translationEN from "./locales/en/translation.json";
 import translationJA from "./locales/ja/translation.json";
+
+import 'react-notifications/lib/notifications.css';
+import './App.css';
 
 const resources = {
   en: {
@@ -35,17 +36,12 @@ i18n.use(initReactI18next).init({
   },
 });
 
-// Importing pages
 const Layout = lazy(() => import('./containers/Layout'))
 const Login = lazy(() => import('./pages/Login'))
-const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
 const Register = lazy(() => import('./pages/Register'))
-const Documentation = lazy(() => import('./pages/Documentation'))
 
-// Initializing different libraries
 initializeApp()
 
-// Check for login and initialize axios
 const token = checkAuth()
 
 function App() {
@@ -60,7 +56,6 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // 👆 daisy UI themes initialization
     themeChange(false)
   }, [])
 
@@ -69,11 +64,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/documentation" element={<Documentation />} />
 
-          {/* Place new routes over this */}
           <Route path="/app/*" element={<Layout />} />
 
           <Route path="*" element={<Navigate to={token ? "/app/calendar" : "/login"} replace />} />
@@ -85,4 +77,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
