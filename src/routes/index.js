@@ -1,5 +1,3 @@
-// All components mapping with path for internal routes
-
 import { lazy } from 'react'
 
 const Page404 = lazy(() => import('../pages/protected/404'))
@@ -9,7 +7,7 @@ const ProfileSettings = lazy(() => import('../pages/protected/ProfileSettings'))
 const Result = lazy(() => import('../pages/protected/Result'))
 const PKS = lazy(() => import('../pages/protected/PKS'))
 const AES = lazy(() => import('../pages/protected/AES'))
-
+const ProductDescriptionPage = lazy(() => import('../pages/protected/ProductDescriptionPage'));
 const StripePaymentPage = lazy(() => import('../pages/protected/payment/Stripe'))
 
 const routes = [
@@ -42,9 +40,13 @@ const routes = [
     component: Page404,
   },
   {
+    path: '/product-description',
+    component: ProductDescriptionPage,
+  },
+  {
     path: '/blank',
     component: Blank,
-  },
+  }
 ]
 
-export default routes
+export default routes;

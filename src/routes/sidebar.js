@@ -1,20 +1,22 @@
 import DocumentIcon from '@heroicons/react/24/outline/DocumentIcon'
 import CalendarDaysIcon from '@heroicons/react/24/outline/CalendarDaysIcon'
-import UserIcon from '@heroicons/react/24/outline/UserIcon'
 import CurrencyDollarIcon from '@heroicons/react/24/outline/CurrencyDollarIcon'
 import Cog6ToothIcon from '@heroicons/react/24/outline/Cog6ToothIcon'
+import UsersIcon from '@heroicons/react/24/outline/UsersIcon';
+import CubeIcon from '@heroicons/react/24/outline/CubeIcon';
+import ComputerDesktopIcon from '@heroicons/react/24/outline/ComputerDesktopIcon';
 
 const iconClasses = `h-6 w-6`
 
 export const routes = [
   {
-    path: '/app/AES', //url
-    icon: <UserIcon className={iconClasses} />, // icon component
-    name: 'Anesthetic Effect', // name that appear in Sidebar
+    path: '/app/AES',
+    icon: <CubeIcon className={iconClasses} />,
+    name: 'Anesthetic Effect',
   },
   {
     path: '/app/PKS',
-    icon: <UserIcon className={iconClasses} />,
+    icon: <CubeIcon className={iconClasses} />,
     name: 'PK Simulation',
   },
   {
@@ -23,9 +25,9 @@ export const routes = [
     name: 'result'
   },
   {
-    path: '/app/calendar', // url
-    icon: <CalendarDaysIcon className={iconClasses} />, // icon component
-    name: 'calendar', // name that appear in Sidebar
+    path: '/app/calendar',
+    icon: <CalendarDaysIcon className={iconClasses} />,
+    name: 'calendar',
   },
   {
     path: '/app/payment/stripe',
@@ -34,15 +36,20 @@ export const routes = [
   },
   {
     path: '/app/settings-profile', //url
-    icon: <UserIcon className={iconClasses} />, // icon component
-    name: 'settings', // name that appear in Sidebar
+    icon: <Cog6ToothIcon className={iconClasses} />,
+    name: 'settings',
+  },
+  {
+    path: '/app/product-description',
+    icon: <ComputerDesktopIcon className={iconClasses} />,
+    name: 'product_description'
   }
 ]
 
 export const adminRoutes = [
   {
-    path: '/app/administrator', // url
-    icon: <Cog6ToothIcon className={iconClasses} />,
+    path: '/app/administrator',
+    icon: <UsersIcon className={iconClasses} />,
     name: 'administrator'
   }
 ]
